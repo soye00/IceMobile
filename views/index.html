@@ -1,0 +1,163 @@
+{% extends 'layout.html' %}
+{% block style %}
+<style>
+    .container {
+        background-color: #0084FF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem 0;
+    }
+    .logo {
+        width: 60%;
+        max-width: 200px;
+        margin-bottom: 0.5rem;
+    }
+    .logo img {
+        width: 100%;
+        margin-top: 2rem;
+        height: auto;
+    }
+    .peng {
+        width: 90%;
+        max-width: 500px;
+        margin-bottom: 0.5rem;
+    }
+    .peng img {
+        width: 100%;
+        height: auto;
+    }
+    .form {
+        width: 90%;
+        max-width: 320px;
+        margin-top: 1rem;
+    }
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        border: none !important;
+        border-radius: 5px !important;
+        padding: 0.8rem !important;
+        margin-bottom: 0.8rem !important;
+        color: #333 !important;
+        font-size: 0.9rem !important;
+    }
+    .form-control::placeholder {
+        color: #666 !important;
+        font-size: 0.9rem !important;
+    }
+    .form-control:focus {
+        background-color: white !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
+        outline: none !important;
+        transform: translateY(-1px);
+    }
+    .form-check {
+        color: white;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+    .form-check-label{
+      cursor: pointer;
+    }
+    .form-check-input {
+        margin-right: 8px;
+    }
+    .btn-login {
+        background-color: white !important;
+        color: #0084FF !important;
+        border: none !important;
+        border-radius: 5px !important;
+        padding: 0.8rem !important;
+        width: 100%;
+        font-weight: bold !important;
+        font-size: 1rem !important;
+        transition: transform 0.2s;
+    }
+    .btn-login:hover {
+        transform: scale(1.02);
+    }
+    .auth-links {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        color: white;
+        flex-wrap: wrap;
+    }
+    .auth-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.8rem;
+        transition: all 0.3s;
+    }
+    .auth-links a:hover {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: underline;
+    }
+    .separator {
+        color: white;
+        font-size: 0.8rem;
+    }
+
+    @media (max-height: 700px) {
+        .container {
+            padding: 0.5rem 0;
+        }
+        .logo {
+            margin-top: 0.5rem;
+        }
+        .logo img {
+            margin-top: 1rem;
+        }
+        .form {
+            margin-top: 0.5rem;
+        }
+    }
+
+    @media (max-height: 600px) {
+        .logo {
+            max-width: 150px;
+        }
+        .peng {
+            max-width: 400px;
+        }
+        .form-control {
+            padding: 0.6rem !important;
+            margin-bottom: 0.6rem !important;
+        }
+        .btn-login {
+            padding: 0.6rem !important;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="logo">
+    <img src="/images/logo.png" alt="ICECARE">
+  </div>
+  <div class="peng">
+    <img src="/images/peng.png" alt="ICECARE">
+  </div>
+  <div class="form">
+    <input type="email" class="form-control" placeholder="이메일" required>
+    <input type="password" class="form-control" placeholder="비밀번호" required>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="remember">
+      <label class="form-check-label" for="remember">로그인 유지</label>
+    </div>
+    <button class="btn btn-login">로그인</button>
+    <div class="auth-links">
+      <a href="/signup">회원가입</a>
+      <span class="separator">|</span>
+      <a href="/find-id">아이디 찾기</a>
+      <span class="separator">|</span>
+      <a href="/forgot-password">비밀번호 찾기</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}
