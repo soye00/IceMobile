@@ -1,95 +1,125 @@
 {% extends 'layout.html' %}
 {% block style %}
 <style>
-    .container {
+   .container {
+        min-height: 100vh;
+        padding: 1rem 0;
+    }
+    .signup-header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 20px;
+        padding: 1rem;
     }
-    .step {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #6c757d;
+    .signup-title {
+        font-size: 1.2rem;
+        font-weight: bold;
     }
-    .step.active {
-        color: #007bff;
+    .progress-container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
     }
-    .step .circle {
-        width: 30px;
-        height: 30px;
-        border: 2px solid #6c757d;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: white;
+    .progress-steps {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      margin: 10px 0 30px 10px;
+      
     }
-    .step.active .circle {
-        border-color: #007bff;
-        background-color: #007bff;
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      margin-left: 10px;
+    }
+    .progress-step-circle {
+      width: 25px;
+      height: 25px;
+      border-radius: 20%;
+      border: 1px solid #9b9d9e;
+      color: #9b9d9e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s ease;
+    }
+    .progress-step-circle.active {
+        background-color: #0084FF;
         color: white;
+        border: none;
+    } 
+    .progress-text{
+      margin-top: 5px;
+      font-size: 12px;
+      color: white;
     }
-    .step-line {
-        flex: 1;
-        height: 2px;
-        background-color: #6c757d;
+    .progress-text.active {
+        color: #0084FF;
     }
-    .step-line.active {
-        background-color: #007bff;
+    .logo-container {
+        background-color: #0084FF;
+        margin-left: 10px;
     }
+    .logo-container img {
+        max-width: 200px;
+        max-height: 30px;
+    }
+    
+    
 </style>
 {% endblock %}
 {% block content %}
-<!-- <div class="container">
-    <div>
+<div class="container">
+    <div class="signup-header">
         <span><i class="bi bi-chevron-left"></i></span>
-        <span>회원가입</span>
-    </div> -->
-    <div class="container">
-        <div>
-            <span><i class="bi bi-chevron-left"></i></span>
-            <span>회원가입</span>
-        </div>
-        <div class="progress-steps">
-            <div class="step {{ 'active' if currentStep >= 1 }}">
-                <span class="circle">1</span>
-                <span>정보 입력</span>
-            </div>
-            <div class="step-line {{ 'active' if currentStep >= 1 }}"></div>
-            <div class="step {{ 'active' if currentStep >= 2 }}">
-                <span class="circle">2</span>
-                <span>인증</span>
-            </div>
-            <div class="step-line {{ 'active' if currentStep >= 2 }}"></div>
-            <div class="step {{ 'active' if currentStep >= 3 }}">
-                <span class="circle">3</span>
-                <span>완료</span>
-            </div>
-        </div>
+        <span class="signup-title">회원가입</span>
+        <span> </span>
     </div>
-    
+    <div class="progress-container">
+        <div class="progress-steps">
+            <!-- <div class="progress-line" id="progressLine"></div> -->
+            <div class="progress-step" data-step="1">
+                <div class="progress-step-circle active" >1</div>
+                <div class="progress-text active">약관동의</div>
+            </div>
+            <div class="progress-step" data-step="2">
+                <div class="progress-step-circle">2</div>
+                <div class="progress-text">정보입력</div>
+            </div>
+            <div class="progress-step" data-step="3">
+                <div class="progress-step-circle">3</div>
+                <div class="progress-text">가입완료</div>
+            </div>
+        </div>
+    </div>    <!-- progress-container -->   
 
+    <div class="logo-container">
+        <img src="/images/logo.png" alt="logo">
+    </div>
+
+    <div class="form-container" id="formContainer">
+        <div id="step1">
+          <label>
+            <input type="checkbox" id="termsCheckbox"> 약관에 동의합니다
+          </label>
+          <br>
+          <button id="submitBtn1" disabled>가입하기</button>
+        </div>
+      </div>
+    </div>  <!-- form-container -->
     
+   
         
-</div>
+</div> <!-- container -->
 {% endblock %}
 {% block script %}
 <script>
-    // 현재 단계 설정 (예: 1, 2, 3)
-    let currentStep = 1; // 여기를 1, 2, 3으로 변경하여 단계 조정 가능
-
-    // 단계 업데이트 함수 (필요 시 호출)
-    function updateStep(step) {
-        currentStep = step;
-        // Nunjucks는 서버사이드 렌더링이므로, 클라이언트에서 동적으로 클래스 변경하려면 DOM을 조작해야 함
-        document.querySelectorAll('.step').forEach((el, index) => {
-            el.classList.toggle('active', index < step);
-        });
-        document.querySelectorAll('.step-line').forEach((el, index) => {
-            el.classList.toggle('active', index < step - 1);
-        });
-    }
-    updateStep(currentStep);
+   
 </script>
 {% endblock %}
