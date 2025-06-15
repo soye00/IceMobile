@@ -9,6 +9,7 @@ const nunjucks = require("nunjucks");
 
 var indexRouter = require('./routes/index');
 var signupRouter = require('./routes/signup');
+var homeRouter = require('./routes/home');
 
 var app = express();
 
@@ -27,6 +28,6 @@ nunjucks.configure("views", {
 
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
-
+app.use('/home', homeRouter);
 
 module.exports = app;
