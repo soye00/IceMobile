@@ -7,9 +7,9 @@ require("dotenv").config();  // .env
 const cors = require('cors');
 const nunjucks = require("nunjucks");
 
-var indexRouter = require('./routes/index');
-var signupRouter = require('./routes/signup');
-var homeRouter = require('./routes/home');
+const indexRouter = require('./routes/index');
+const signupRouter = require('./routes/signup');
+const homeRouter = require('./routes/home');
 
 var app = express();
 
