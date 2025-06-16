@@ -1,0 +1,31 @@
+.footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.8rem 0;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  
+  .under-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    color: #666;
+    padding: 0.5rem;
+  }
+  
+  .under-btn i {
+    font-size: 1.2rem;
+  }
+  
+  .under-btn p {
+    font-size: 0.75rem;
+    margin: 0;
+  }

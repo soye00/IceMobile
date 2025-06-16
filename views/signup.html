@@ -53,7 +53,8 @@
       overflow-x: hidden;
     }
     .step-description {
-      text-align: center;
+      font-weight: bold;
+      /* text-align: center; */
       margin-bottom: 1.5rem;
       font-size: 1.1rem;
       color: #333;
@@ -113,6 +114,115 @@
       }
     }
     
+    .terms-container {
+      margin-top: 1rem;
+    }
+    
+    .terms-item {
+      /* border: 1px solid #dee2e6; */
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .terms-header {
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background-color: #fff;
+      transition: background-color 0.3s;
+    }
+    
+    .terms-header:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .terms-check {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #dee2e6;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .terms-check i {
+      color: #dee2e6;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    
+    .terms-check.checked i {
+      color: #0084FF;
+    }
+    
+    .terms-title {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    
+    .terms-content {
+      padding: 1rem;
+      background-color: #f8f9fa;
+      display: none;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #666;
+    }
+    
+    .terms-content.show {
+      display: block;
+    }
+    
+    
+    .all-terms-check {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .all-terms-check:hover {
+      background-color: #f8f9fa;
+    }
+
+    .all-terms-check.checked {
+      background-color: #0084FF;
+      border: none;
+      color: white;
+    }
+
+    .all-terms-check.checked:hover {
+      background-color: #0084FF;
+    }
+    
+    .all-terms-check .terms-check {
+      border: none;
+      margin-right: 1rem;
+    }
+    
+    .all-terms-check .terms-check i {
+      font-size: 1.2rem;
+      color: #dee2e6;
+      transition: color 0.3s;
+    }
+
+    .all-terms-check.checked .terms-check i {
+      color: white;
+    }
 </style>
 {% endblock %}
 {% block content %}
@@ -123,9 +233,9 @@
         <span> </span>
     </div>
 
-    <img src="/images/logo.png" alt="Logo" class="logo">
+    <img src="/images/colorlogo.png" alt="Logo" class="logo">
 
-    <div id="progress-container" class="progress-container">
+    <div id="progress-container" class="progress-container p-3">
       
       <div class="progress px-1" style="height: 3px;">
         <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -138,27 +248,95 @@
 
     </div> <!-- progress-container -->
 
-    <form id="multi-step-form">
+    <form id="multi-step-form" class="p-3 mb-5">
+      
       <!-- Step 1: 약관동의 -->
       <div class="step step-1">
-        <div class="step-description">약관에 동의해 주세요.</div>
+        <div class="step-description">약관동의</div>
+
         <div class="mb-3">
-          <label class="form-label">서비스 이용약관</label>
-          
+          <label class="form-label">아이스케어 서비스<br/> 이용약관에 동의해주세요.</label>          
         </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="terms" required>
-          <label class="form-check-label" for="terms">약관에 동의합니다.</label>
+
+        <div class="terms-container">
+          <div class="all-terms-check" id="all-terms-check">
+            <div class="terms-check">
+              <i class="bi bi-check"></i>
+            </div>
+            <span>모든 약관에 동의합니다.</span>
+          </div>
+
+          <div class="terms-item">
+            <div class="terms-header">
+              <div class="terms-check">
+                <i class="bi bi-check"></i>
+              </div>
+              <div class="terms-title">
+                <span>서비스 이용약관 동의</span>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+            </div>
+            <div class="terms-content">
+              본 약관은 제빙기 청소 예약 서비스 이용에 관한 기본적인 조건을 규정합니다. 
+              이용자의 권리 및 의무, 서비스 제공 범위, 예약 변경 및 취소 규정 등이 포함되어 있으며, 
+              서비스 이용 시 반드시 숙지하셔야 합니다.
+            </div>
+          </div>
+
+          <div class="terms-item">
+            <div class="terms-header">
+              <div class="terms-check">
+                <i class="bi bi-check"></i>
+              </div>
+              <div class="terms-title">
+                <span>개인정보 수집 및 이용 동의</span>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+            </div>
+            <div class="terms-content">
+              고객 식별 및 서비스 제공을 위해 이름, 연락처, 주소 등 최소한의 개인정보를 수집합니다. 
+              수집된 정보는 예약 처리와 고객 응대를 위해 사용되며, 관련 법령에 따라 안전하게 보호됩니다.
+            </div>
+          </div>
+
+          <div class="terms-item">
+            <div class="terms-header">
+              <div class="terms-check">
+                <i class="bi bi-check"></i>
+              </div>
+              <div class="terms-title">
+                <span>개인정보 제3자 제공 동의</span>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+            </div>
+            <div class="terms-content">
+              청소 기사에게 고객의 이름, 연락처, 주소 등을 제공할 수 있습니다.
+              제공된 정보는 오직 서비스 수행 목적에 한해 사용되며, 관계 법령에 따라 안전하게 처리됩니다.
+            </div>
+          </div>
+
+          <div class="terms-item">
+            <div class="terms-header">
+              <div class="terms-check">
+                <i class="bi bi-check"></i>
+              </div>
+              <div class="terms-title">
+                <span>위치 및 개인정보 활용 동의</span>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+            </div>
+            <div class="terms-content">
+              정확한 예약 및 기사 배정을 위해 위치 및 주소 정보를 수집·활용합니다. 
+              수집된 정보는 서비스 제공 목적에 한해 사용되며, 외부에 공유되지 않고 관련 법령에 따라 보호됩니다.
+              수집된 정보는 청소 예정일 알림, 할인 쿠폰, 프로모션 및 이벤트 안내를 알림을 위해 사용될 수 있습니다.
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Step 2: 회원가입 -->
       <div class="step step-2" style="display: none;">
         <div class="step-description">회원 정보를 입력해 주세요.</div>
-        <div class="mb-3">
-          <label for="email" class="form-label">이메일</label>
-          <input type="email" class="form-control" id="email" name="email" required>
-        </div>
         <div class="mb-3">
           <label for="name" class="form-label">이름</label>
           <input type="text" class="form-control" id="name" name="name" required>
@@ -167,6 +345,31 @@
           <label for="phone" class="form-label">연락처</label>
           <input type="tel" class="form-control" id="phone" name="phone" required>
         </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">이메일</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">비밀번호</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">비밀번호 확인</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+          <!-- addr -->
+        </div>
+        <div class="mb-3">
+          <label for="company_no" class="form-label">사업자 번호</label>
+          <input type="text" class="form-control" id="company_no" name="company_no" required>
+        </div>
+        <div class="mb-3">
+          <label for="image_url" class="form-label">사진 등록</label>
+          <input type="file" class="form-control" id="image_url" name="image_url" required>
+        </div>
+        
+        
       </div>
 
       <!-- Step 3: 가입완료 -->
@@ -189,7 +392,7 @@
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-   var currentStep = 1;
+var currentStep = 1;
 
 function displayStep(stepNumber) {
   if (stepNumber >= 1 && stepNumber <= 3) {
@@ -232,23 +435,15 @@ $(document).ready(function() {
 
   $(".next-step").click(function() {
     // 유효성 검사
-    if (currentStep === 1 && !$("#terms").is(":checked")) {
-      alert("약관에 동의해 주세요.");
-      return;
+    if (currentStep === 1) {
+      const allTermsChecked = $('#all-terms-check .terms-check').hasClass('checked');
+      if (!allTermsChecked) {
+        alert("약관에 동의해 주세요.");
+        return;
+      }
     }
-    // if (currentStep === 2) {
-    //   let email = $("#email").val();
-    //   let name = $("#name").val();
-    //   let phone = $("#phone").val();
 
-
-
-    //   if (!email || !name || !phone) {
-    //     alert("모든 필드를 입력해 주세요.");
-    //     return;
-    //   }
-    //   axios.post()
-    // }
+    // step 2 유효성 검사 추가해야함 ! 
 
     if (currentStep < 3) {
       $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
@@ -276,6 +471,44 @@ $(document).ready(function() {
       }, 500);
     }
   });
+
+  $('.terms-title').click(function() {
+    const $termsItem = $(this).closest('.terms-item');
+    const $check = $termsItem.find('.terms-check');
+    $check.toggleClass('checked');
+    updateAllTermsCheck();
+  });
+
+  $('.terms-check').click(function(e) {
+    e.stopPropagation();
+    const $termsItem = $(this).closest('.terms-item');
+    const $check = $termsItem.find('.terms-check');
+    $check.toggleClass('checked');
+    updateAllTermsCheck();
+  });
+
+  $('.bi-chevron-right, .bi-chevron-down').click(function(e) {
+    e.stopPropagation();
+    const $termsItem = $(this).closest('.terms-item');
+    const $content = $termsItem.find('.terms-content');
+    const $chevron = $(this);
+    
+    $content.toggleClass('show');
+    $chevron.toggleClass('bi-chevron-right bi-chevron-down');
+  });
+
+  $('#all-terms-check').click(function() {
+    const $allCheck = $(this);
+    const isChecked = !$allCheck.hasClass('checked');
+    
+    $allCheck.toggleClass('checked');
+    $('.terms-check').toggleClass('checked', isChecked);
+  });
+
+  function updateAllTermsCheck() {
+    const allChecked = $('.terms-item .terms-check').length === $('.terms-item .terms-check.checked').length;
+    $('#all-terms-check .terms-check').toggleClass('checked', allChecked);
+  }
 });
 </script>
 {% endblock %}
