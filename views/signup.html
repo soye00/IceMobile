@@ -201,27 +201,23 @@ function checkPhoneDuplicate(phone) {
   
   clearTimeout(phoneCheckTimeout);
   phoneCheckTimeout = setTimeout(() => {
-    $.ajax({
-      url: '/signup/check-phone',
-      method: 'GET',
-      data: { phone: phone },
-      success: function(response) {
-        if (response.isDuplicate) {
-          $('#phone').addClass('is-invalid');
-          $('#phone').next('.invalid-feedback').text(response.message);
-        } else {
-          $('#phone').removeClass('is-invalid');
-          $('#phone').next('.invalid-feedback').text('');
-        }
-      },
-      error: function(xhr) {
-        console.error('전화번호 중복체크 오류:', xhr);
+    axios.get('/signup/check-phone', {
+      params: { phone: phone }
+    })
+    .then(function(response) {
+      if (response.data.isDuplicate) {
+        $('#phone').addClass('is-invalid');
+        $('#phone').next('.invalid-feedback').text(response.data.message);
+      } else {
+        $('#phone').removeClass('is-invalid');
+        $('#phone').next('.invalid-feedback').text('');
       }
+    })
+    .catch(function(error) {
+      console.error('전화번호 중복체크 오류:', error);
     });
   }, 500); // 0.5초 딜레이
 }
-
-
 
 function displayStep(stepNumber) {
   if (stepNumber >= 1 && stepNumber <= 3) {
@@ -312,22 +308,20 @@ $(document).ready(function() {
       if (emailRegex.test(value)) {
         clearTimeout(emailCheckTimeout);
         emailCheckTimeout = setTimeout(() => {
-          $.ajax({
-            url: '/signup/check-email',
-            method: 'GET',
-            data: { email: value },
-            success: function(response) {
-              if (response.isDuplicate) {
-                $this.addClass('is-invalid');
-                $this.next('.invalid-feedback').text(response.message);
-              } else {
-                $this.removeClass('is-invalid');
-                $this.next('.invalid-feedback').text('');
-              }
-            },
-            error: function(xhr) {
-              console.error('이메일 중복체크 오류:', xhr);
+          axios.get('/signup/check-email', {
+            params: { email: value }
+          })
+          .then(function(response) {
+            if (response.data.isDuplicate) {
+              $this.addClass('is-invalid');
+              $this.next('.invalid-feedback').text(response.data.message);
+            } else {
+              $this.removeClass('is-invalid');
+              $this.next('.invalid-feedback').text('');
             }
+          })
+          .catch(function(error) {
+            console.error('이메일 중복체크 오류:', error);
           });
         }, 500); 
       }
@@ -420,40 +414,37 @@ $(document).ready(function() {
         return;
       }
 
-      console.log('AJAX 요청 시작');
+      console.log('Axios 요청 시작');
       console.log('폼 데이터:', $("#multi-step-form").serialize());
       
       // 폼 데이터를 서버로 전송
-      $.ajax({
-        url: '/signup',
-        method: 'POST',
-        data: $("#multi-step-form").serialize(),
-        beforeSend: function() {
-          console.log('AJAX 요청 전송 중...');
-        },
-        success: function(response) {
-          console.log('서버 응답:', response);
-          console.log('응답 메시지:', response.message);
-          console.log('메시지 비교 결과:', response.message === '회원가입 성공');
-          
-          // 성공 응답인지 확인 (message가 있거나 에러가 없는 경우)
-          if (response && (response.message === '회원가입 성공' || !response.error)) {
-            console.log('회원가입 성공 - Step 3로 이동 시작');
-            $(".step").hide();
-            $(".step-3").show();
-            currentStep = 3;
-            updateProgressBar();
-            updateStepCircles();
-            updateButtons();
-            console.log('Step 3 이동 완료');
-          } else {
-            alert(response.error || "회원가입에 실패했습니다.");
-          }
-        },
-        error: function(xhr) {
-          console.log('AJAX 에러:', xhr);
-          alert("서버 오류: " + (xhr.responseJSON?.error || "회원가입에 실패했습니다."));
+      axios.post('/signup', $("#multi-step-form").serialize(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
+      })
+      .then(function(response) {
+        console.log('서버 응답:', response.data);
+        console.log('응답 메시지:', response.data.message);
+        console.log('메시지 비교 결과:', response.data.message === '회원가입 성공');
+        
+        // 성공 응답인지 확인 (message가 있거나 에러가 없는 경우)
+        if (response.data && (response.data.message === '회원가입 성공' || !response.data.error)) {
+          console.log('회원가입 성공 - Step 3로 이동 시작');
+          $(".step").hide();
+          $(".step-3").show();
+          currentStep = 3;
+          updateProgressBar();
+          updateStepCircles();
+          updateButtons();
+          console.log('Step 3 이동 완료');
+        } else {
+          alert(response.data.error || "회원가입에 실패했습니다.");
+        }
+      })
+      .catch(function(error) {
+        console.log('Axios 에러:', error);
+        alert("서버 오류: " + (error.response?.data?.error || "회원가입에 실패했습니다."));
       });
     }
   });

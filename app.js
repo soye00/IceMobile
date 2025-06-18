@@ -3,7 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const { createClient } = require('@supabase/supabase-js');
-const multer = require('multer');
+// const multer = require('multer');
 const session = require('express-session');
 
 require("dotenv").config();  // .env
@@ -17,15 +17,18 @@ const app = express();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
 // Multer 설정 
-const upload = multer({ storage: multer.memoryStorage() });
+// const upload = multer({ storage: multer.memoryStorage() });
 
-// // 세션 설정
-// app.use(session({
-//   secret: process.env.SESSION_SECRET || 'env시크릿키추가하기',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: { secure: false }, // 배포 시 true로 설정하기 !! 
-// }));
+// 세션 설정
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'dksljfkjeijnvjsjdkhsd', 
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production', // 배포 시 HTTPS 필요 => secure: true 로 설정하기! 
+    maxAge: 24 * 60 * 60 * 1000 // 24시간
+  }
+}));
 
 app.use(cors())
 app.use(logger('dev'));

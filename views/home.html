@@ -206,7 +206,7 @@
 <div class="container">
   <div class="header">
     <div>
-      <span><i class="bi bi-person" onclick=""></i></span>
+      <span><i class="bi bi-box-arrow-left" id="logout-btn"></i></span>
       <span><img src="/images/colorlogo.png" alt="logo"></span>
       <span><i class="bi bi-bell" onclick=""></i></span>
     </div>
@@ -248,4 +248,24 @@
 </div>
 {% endblock %}
 {% block script %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 로그아웃 버튼 클릭 처리
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      if (confirm('로그아웃 하시겠습니까?')) {
+        try {
+          const response = await axios.post('/logout');
+          if (response.data.message === '로그아웃 성공') {
+            localStorage.removeItem('remember');
+            window.location.href = response.data.redirect;
+          } else {
+            alert(response.data.error || '로그아웃에 실패했습니다.');
+          }
+        } catch (error) {
+          alert(error.response?.data?.error || '서버 오류: 로그아웃에 실패했습니다.');
+        }
+      }
+    });
+  });
+  </script>
 {% endblock %}

@@ -143,8 +143,8 @@
     <img src="/images/peng.png" alt="ICECARE">
   </div>
   <div class="form">
-    <input type="email" class="form-control" placeholder="이메일" required>
-    <input type="password" class="form-control" placeholder="비밀번호" required>
+    <input type="email" class="form-control" id="email" placeholder="이메일" required>
+    <input type="password" class="form-control" id="password" placeholder="비밀번호" required>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="remember">
       <label class="form-check-label" for="remember">로그인 유지</label>
@@ -161,4 +161,48 @@
 </div>
 {% endblock %}
 {% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+  // remember 체크박스 상태 복원
+  if (localStorage.getItem('remember') === 'true') {
+    document.getElementById('remember').checked = true;
+  }
+
+  // 로그인 폼 제출 처리
+  document.querySelector('.btn-login').addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const remember = document.getElementById('remember').checked;
+
+    // 입력 검증
+    if (!email || !password) {
+      alert('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('/login', {
+        email,
+        password,
+        remember
+      });
+
+      if (response.data.message === '로그인 성공') {
+        if (remember) {
+          localStorage.setItem('remember', 'true');
+        } else {
+          localStorage.removeItem('remember');
+        }
+        window.location.href = response.data.redirect;
+      } else {
+        alert(response.data.error || '로그인에 실패했습니다.');
+      }
+    } catch (error) {
+      alert(error.response?.data?.error || '서버 오류: 로그인에 실패했습니다.');
+    }
+  });
+});
+</script>
 {% endblock %}
