@@ -13,7 +13,6 @@
     <img src="/images/colorlogo.png" alt="Logo" class="logo">
 
     <div id="progress-container" class="progress-container p-3">
-      
       <div class="progress px-1" style="height: 3px;">
         <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
@@ -22,19 +21,15 @@
         <div class="step-circle" onclick="displayStep(2)">2</div>
         <div class="step-circle" onclick="displayStep(3)">3</div>
       </div>
+    </div>
 
-    </div> <!-- progress-container -->
-
-    <form id="multi-step-form" class="p-3 mb-5">
-      
+    <form id="multi-step-form" action="/signup" method="post" class="p-3 mb-5">
       <!-- Step 1: 약관동의 -->
       <div class="step step-1">
         <div class="step-description">약관동의</div>
-
         <div class="mb-3">
           <label class="form-label">아이스케어 서비스<br/> 이용약관에 동의해주세요.</label>          
         </div>
-
         <div class="terms-container">
           <div class="all-terms-check" id="all-terms-check">
             <div class="terms-check">
@@ -42,7 +37,6 @@
             </div>
             <span>모든 약관에 동의합니다.</span>
           </div>
-
           <div class="terms-item">
             <div class="terms-header">
               <div class="terms-check">
@@ -59,7 +53,6 @@
               서비스 이용 시 반드시 숙지하셔야 합니다.
             </div>
           </div>
-
           <div class="terms-item">
             <div class="terms-header">
               <div class="terms-check">
@@ -75,7 +68,6 @@
               수집된 정보는 예약 처리와 고객 응대를 위해 사용되며, 관련 법령에 따라 안전하게 보호됩니다.
             </div>
           </div>
-
           <div class="terms-item">
             <div class="terms-header">
               <div class="terms-check">
@@ -91,7 +83,6 @@
               제공된 정보는 오직 서비스 수행 목적에 한해 사용되며, 관계 법령에 따라 안전하게 처리됩니다.
             </div>
           </div>
-
           <div class="terms-item">
             <div class="terms-header">
               <div class="terms-check">
@@ -120,25 +111,29 @@
         </div>
         <div class="mb-3">
           <label for="phone" class="form-label">연락처</label>
-          <input type="tel" class="form-control" id="phone" name="phone" required>
+          <input type="tel" class="form-control" id="phone" name="phone" required pattern="^010-\d{4}-\d{4}$" placeholder="010-1234-5678">
+          <div class="invalid-feedback">연락처는 010-1234-5678 형식으로 입력해주세요.</div>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">이메일</label>
-          <input type="email" class="form-control" id="email" name="email" required>
+          <input type="email" class="form-control" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+          <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">비밀번호</label>
-          <input type="password" class="form-control" id="password" name="password" required>
+          <label FOR="password" class="form-label">비밀번호</label>
+          <input type="password" class="form-control" id="password" name="password" required pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$" title="비밀번호는 영문, 숫자, 특수문자를 포함해 8자 이상이어야 합니다.">
+          <div class="invalid-feedback">비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.</div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">비밀번호 확인</label>
-          <input type="password" class="form-control" id="password" name="password" required>
+          <label for="password_confirm" class="form-label">비밀번호 확인</label>
+          <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+          <div id="password-confirm-feedback" class="invalid-feedback"></div>
         </div>
         <div class="mb-3">
           <label for="address" class="form-label">주소</label>
           <div class="row g-2">
             <div class="col-9">
-              <input type="text" class="form-control" id="postcode" name="postcode"  readonly>
+              <input type="text" class="form-control" id="postcode" name="postcode" readonly>
             </div>
             <div class="col-3">
               <button type="button" class="btn btn-primary w-100" onclick="openAddressSearch()">검색</button>
@@ -147,10 +142,6 @@
           <input type="text" class="form-control mt-2" id="address" name="address" readonly>
           <input type="text" class="form-control mt-2" id="address_detail" name="address_detail" placeholder="상세주소">
         </div>
-        <div class="mb-3">
-          <label for="company_no" class="form-label">사업자 번호</label>
-          <input type="text" class="form-control" id="company_no" name="company_no" required>
-        </div>
       </div>
 
       <!-- Step 3: 가입완료 -->
@@ -158,24 +149,25 @@
         <div class="step-description">가입이 완료되었습니다!</div>
         <div class="text-center mb-3">
           <p>환영합니다! 지금 로그인하여 서비스를 이용해 보세요.</p>
-          <a href="/" class="btn btn-success">로그인 하러 가기</a>
+          <!-- <a href="/" class="btn btn-success">로그인 하러 가기</a> -->
         </div>
       </div>
-    </form>  <!-- multi-step-form -->
+    </form>
 
     <div class="btn-container">
       <button type="button" class="btn btn-outline-primary prev-step" style="display: none;">이전</button>
       <button type="button" class="btn btn-primary next-step">다음</button>
-    </div>  <!-- btn-container -->
-    
-</div> <!-- container -->
+    </div>
+</div>
 {% endblock %}
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 var currentStep = 1;
+let phoneCheckTimeout;
 
-// 카카오 주소
+//카카오 주소 검색
 function openAddressSearch() {
   new daum.Postcode({
     oncomplete: function(data) {
@@ -185,6 +177,51 @@ function openAddressSearch() {
     }
   }).open();
 }
+
+// 연락처 포맷팅 
+function formatPhoneNumber(value) {
+  
+  const numbers = value.replace(/\D/g, '');
+  
+  if (numbers.startsWith('010')) {
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 7) {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    } else {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+    }
+  }
+  return value; 
+}
+
+// 전화번호 중복체크
+function checkPhoneDuplicate(phone) {
+  if (phone.length < 13) return; // 완전한 전화번호가 아니면 체크하지 않음
+  
+  clearTimeout(phoneCheckTimeout);
+  phoneCheckTimeout = setTimeout(() => {
+    $.ajax({
+      url: '/signup/check-phone',
+      method: 'GET',
+      data: { phone: phone },
+      success: function(response) {
+        if (response.isDuplicate) {
+          $('#phone').addClass('is-invalid');
+          $('#phone').next('.invalid-feedback').text(response.message);
+        } else {
+          $('#phone').removeClass('is-invalid');
+          $('#phone').next('.invalid-feedback').text('');
+        }
+      },
+      error: function(xhr) {
+        console.error('전화번호 중복체크 오류:', xhr);
+      }
+    });
+  }, 500); // 0.5초 딜레이
+}
+
+
 
 function displayStep(stepNumber) {
   if (stepNumber >= 1 && stepNumber <= 3) {
@@ -208,15 +245,20 @@ function updateProgressBar() {
 }
 
 function updateButtons() {
+  $(".btn-container .btn-success").remove();
+  
   if (currentStep === 1) {
     $(".prev-step").hide();
     $(".next-step").show().text("다음");
   } else if (currentStep === 2) {
     $(".prev-step").show();
-    $(".next-step").show().text("다음");
+    $(".next-step").show().text("회원가입");
   } else if (currentStep === 3) {
-    $(".prev-step").show();
+    $(".prev-step").hide();
     $(".next-step").hide();
+    if (!$(".btn-container .btn-success").length) {
+      $(".btn-container").append('<a href="/" class="btn btn-success">로그인 하러 가기</a>');
+    }
   }
 }
 
@@ -224,18 +266,112 @@ $(document).ready(function() {
   $(".step").slice(1).hide();
   updateStepCircles();
   updateButtons();
+  
+  // 연락처 실시간 포맷팅 및 검증
+  $('#phone').on('input', function() {
+    const $this = $(this);
+    let value = $this.val();
+    value = formatPhoneNumber(value);
+    $this.val(value);
+
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (value && !phoneRegex.test(value)) {
+      $this.addClass('is-invalid');
+    } else {
+      $this.removeClass('is-invalid');
+      // 완전한 전화번호가 입력되면 중복체크 실행
+      if (phoneRegex.test(value)) {
+        checkPhoneDuplicate(value);
+      }
+    }
+  });
+
+  // 이메일 실시간 검증
+  $('#email').on('input', function() {
+    const email = $(this).val();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (email && !emailRegex.test(email)) {
+      $(this).addClass('is-invalid');
+    } else {
+      $(this).removeClass('is-invalid');
+    }
+  });
+
+  // 이메일 중복체크
+  let emailCheckTimeout;
+  $('#email').on('input', function() {
+    const $this = $(this);
+    let value = $this.val().trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (value && !emailRegex.test(value)) {
+      $this.addClass('is-invalid');
+    } else {
+      $this.removeClass('is-invalid');
+
+      if (emailRegex.test(value)) {
+        clearTimeout(emailCheckTimeout);
+        emailCheckTimeout = setTimeout(() => {
+          $.ajax({
+            url: '/signup/check-email',
+            method: 'GET',
+            data: { email: value },
+            success: function(response) {
+              if (response.isDuplicate) {
+                $this.addClass('is-invalid');
+                $this.next('.invalid-feedback').text(response.message);
+              } else {
+                $this.removeClass('is-invalid');
+                $this.next('.invalid-feedback').text('');
+              }
+            },
+            error: function(xhr) {
+              console.error('이메일 중복체크 오류:', xhr);
+            }
+          });
+        }, 500); 
+      }
+    }
+  });
+
+   // 비밀번호 실시간 검증
+   $('#password, #password_confirm').on('input', function() {
+    const password = $('#password').val();
+    const passwordConfirm = $('#password_confirm').val();
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$/;
+
+    // 비밀번호 복잡성 검증
+    if (password && !passwordRegex.test(password)) {
+      $('#password').addClass('is-invalid');
+    } else {
+      $('#password').removeClass('is-invalid');
+    }
+
+    // 비밀번호 확인 복잡성 검증
+    if (passwordConfirm && !passwordRegex.test(passwordConfirm)) {
+      $('#password_confirm').addClass('is-invalid');
+      $('#password-confirm-feedback').text('비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.');
+    } else if (passwordConfirm && password !== passwordConfirm) {
+      $('#password_confirm').addClass('is-invalid');
+      $('#password-confirm-feedback').text('비밀번호가 일치하지 않습니다.');
+    } else if (passwordConfirm) {
+      $('#password_confirm').removeClass('is-invalid');
+      $('#password-confirm-feedback').text('');
+    }
+  });
+
 
   $(".next-step").click(function() {
-    // 유효성 검사
     if (currentStep === 1) {
+      
+      // 약곤동의 체크 확인
       const allTermsChecked = $('#all-terms-check .terms-check').hasClass('checked');
       if (!allTermsChecked) {
         alert("약관에 동의해 주세요.");
         return;
       }
-    }
-    // step 2 유효성 검사 추가해야함 !
-    if (currentStep < 3) {
+
+      // Step 1에서 다음 단계로 이동
       $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
       currentStep++;
       setTimeout(function() {
@@ -245,9 +381,84 @@ $(document).ready(function() {
         updateStepCircles();
         updateButtons();
       }, 500);
+    } else if (currentStep === 2) {
+      // Step 2에서 폼 유효성 검사 및 제출
+      const form = $("#multi-step-form")[0];
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // 비밀번호 복잡성 및 일치 여부 확인
+      const password = $('input[name="password"]').val();
+      const passwordConfirm = $('input[name="password_confirm"]').val();
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$/;
+
+      if (!passwordRegex.test(password)) {
+        alert("비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.");
+        $('#password').addClass('is-invalid');
+        return;
+      }
+
+      if (!passwordRegex.test(passwordConfirm)) {
+        alert("비밀번호 확인은 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.");
+        $('#password_confirm').addClass('is-invalid');
+        $('#password-confirm-feedback').text('비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.');
+        return;
+      }
+
+      if (password !== passwordConfirm) {
+        alert("비밀번호가 일치하지 않습니다.");
+        $('#password_confirm').addClass('is-invalid');
+        $('#password-confirm-feedback').text('비밀번호가 일치하지 않습니다.');
+        return;
+      }
+
+      // 전화번호 중복 여부 확인
+      if ($('#phone').hasClass('is-invalid')) {
+        alert("전화번호를 확인해주세요.");
+        return;
+      }
+
+      console.log('AJAX 요청 시작');
+      console.log('폼 데이터:', $("#multi-step-form").serialize());
+      
+      // 폼 데이터를 서버로 전송
+      $.ajax({
+        url: '/signup',
+        method: 'POST',
+        data: $("#multi-step-form").serialize(),
+        beforeSend: function() {
+          console.log('AJAX 요청 전송 중...');
+        },
+        success: function(response) {
+          console.log('서버 응답:', response);
+          console.log('응답 메시지:', response.message);
+          console.log('메시지 비교 결과:', response.message === '회원가입 성공');
+          
+          // 성공 응답인지 확인 (message가 있거나 에러가 없는 경우)
+          if (response && (response.message === '회원가입 성공' || !response.error)) {
+            console.log('회원가입 성공 - Step 3로 이동 시작');
+            $(".step").hide();
+            $(".step-3").show();
+            currentStep = 3;
+            updateProgressBar();
+            updateStepCircles();
+            updateButtons();
+            console.log('Step 3 이동 완료');
+          } else {
+            alert(response.error || "회원가입에 실패했습니다.");
+          }
+        },
+        error: function(xhr) {
+          console.log('AJAX 에러:', xhr);
+          alert("서버 오류: " + (xhr.responseJSON?.error || "회원가입에 실패했습니다."));
+        }
+      });
     }
   });
 
+  // 이전 버튼
   $(".prev-step").click(function() {
     if (currentStep > 1) {
       $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
@@ -262,6 +473,7 @@ $(document).ready(function() {
     }
   });
 
+  // 약관 체크박스 
   $('.terms-title').click(function() {
     const $termsItem = $(this).closest('.terms-item');
     const $check = $termsItem.find('.terms-check');
@@ -287,6 +499,8 @@ $(document).ready(function() {
     $chevron.toggleClass('bi-chevron-right bi-chevron-down');
   });
 
+
+  // 전체동의 
   $('#all-terms-check').click(function() {
     const $allCheck = $(this);
     const isChecked = !$allCheck.hasClass('checked');
@@ -300,5 +514,6 @@ $(document).ready(function() {
     $('#all-terms-check .terms-check').toggleClass('checked', allChecked);
   }
 });
+
 </script>
 {% endblock %}

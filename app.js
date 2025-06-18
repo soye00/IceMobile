@@ -56,7 +56,7 @@ const signupRouter = require('./routes/signup');
 const homeRouter = require('./routes/home');
 
 app.use('/', indexRouter);
-app.use('/signup',upload.single('image_url'), signupRouter);
+app.use('/signup', signupRouter);
 app.use('/home', homeRouter);
 
 module.exports = app;
