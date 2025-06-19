@@ -21,6 +21,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANO
 
 // 세션 설정
 app.use(session({
+  name: 'login_session',
   secret: process.env.SESSION_SECRET || 'dksljfkjeijnvjsjdkhsd', 
   resave: false,
   saveUninitialized: false,
@@ -57,9 +58,11 @@ app.use((req, res, next) => {
 const indexRouter = require('./routes/index');
 const signupRouter = require('./routes/signup');
 const homeRouter = require('./routes/home');
+const reservationRouter = require('./routes/reservation');
 
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
 app.use('/home', homeRouter);
+app.use('/reservation', reservationRouter);
 
 module.exports = app;

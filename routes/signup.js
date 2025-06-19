@@ -9,7 +9,9 @@ router.get('/', function(req, res, next) {
 // 전화번호 중복체크
 router.get('/check-phone', async function(req, res, next) {
   const { phone } = req.query;
-  
+
+  console.log('phone',phone);
+
   if (!phone) {
     return res.status(400).json({ error: '전화번호를 입력해주세요.' });
   }
@@ -20,8 +22,9 @@ router.get('/check-phone', async function(req, res, next) {
       .select('phone')
       .eq('phone', phone)
       .single();
+      console.log('중복체크 결과:',{data,error});
 
-    if (error && error.code !== 'PGRST116') { // PGRST116는 결과가 없을 때
+    if (error && error.code !== 'PGRST116') { 
       console.error('전화번호 중복체크 오류:', error);
       return res.status(500).json({ error: '중복체크 중 오류가 발생했습니다.' });
     }

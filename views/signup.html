@@ -197,14 +197,19 @@ function formatPhoneNumber(value) {
 
 // 전화번호 중복체크
 function checkPhoneDuplicate(phone) {
-  if (phone.length < 13) return; // 완전한 전화번호가 아니면 체크하지 않음
+  console.log('전화번호 중복체크 시작');
+  console.log('phone',phone);
+
+  if (phone.length < 13) return; 
   
   clearTimeout(phoneCheckTimeout);
   phoneCheckTimeout = setTimeout(() => {
+    console.log('전화번호 중복체크 setTimeout');
     axios.get('/signup/check-phone', {
       params: { phone: phone }
     })
     .then(function(response) {
+      console.log('전화번호 중복체크 응답',response.data);
       if (response.data.isDuplicate) {
         $('#phone').addClass('is-invalid');
         $('#phone').next('.invalid-feedback').text(response.data.message);
@@ -216,7 +221,7 @@ function checkPhoneDuplicate(phone) {
     .catch(function(error) {
       console.error('전화번호 중복체크 오류:', error);
     });
-  }, 500); // 0.5초 딜레이
+  }, 500);
 }
 
 function displayStep(stepNumber) {
@@ -275,7 +280,6 @@ $(document).ready(function() {
       $this.addClass('is-invalid');
     } else {
       $this.removeClass('is-invalid');
-      // 완전한 전화번호가 입력되면 중복체크 실행
       if (phoneRegex.test(value)) {
         checkPhoneDuplicate(value);
       }
@@ -428,7 +432,7 @@ $(document).ready(function() {
         console.log('응답 메시지:', response.data.message);
         console.log('메시지 비교 결과:', response.data.message === '회원가입 성공');
         
-        // 성공 응답인지 확인 (message가 있거나 에러가 없는 경우)
+        // 성공 응답인지 확인
         if (response.data && (response.data.message === '회원가입 성공' || !response.data.error)) {
           console.log('회원가입 성공 - Step 3로 이동 시작');
           $(".step").hide();
