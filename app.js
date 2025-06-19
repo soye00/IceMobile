@@ -59,10 +59,12 @@ const indexRouter = require('./routes/index');
 const signupRouter = require('./routes/signup');
 const homeRouter = require('./routes/home');
 const reservationRouter = require('./routes/reservation');
+const myReservationsRouter = require('./routes/my-reservations');
 
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
 app.use('/home', homeRouter);
 app.use('/reservation', reservationRouter);
+app.use('/my-reservations', myReservationsRouter);
 
 module.exports = app;

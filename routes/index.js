@@ -23,7 +23,7 @@ router.post('/login', async function(req, res, next) {
     // Supabase에서 사용자 조회
     const { data, error } = await req.supabase
       .from('customer')
-      .select('email, password, name')
+      .select('email, password, name, phone, addr')
       .eq('email', email)
       .single();
 
@@ -41,7 +41,9 @@ router.post('/login', async function(req, res, next) {
     // 세션에 사용자 정보 저장
     req.session.user = {
       email: data.email,
-      name: data.name
+      name: data.name,
+      phone: data.phone,
+      addr: data.addr
     };
 
     // 로그인 유지 설정
