@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// 예약 내역 리스트 페이지
+
 router.get('/', async function(req, res, next) {
   const user = req.session?.user;
   if (!user) return res.redirect('/');

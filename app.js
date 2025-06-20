@@ -5,10 +5,10 @@ var logger = require('morgan');
 const { createClient } = require('@supabase/supabase-js');
 // const multer = require('multer');
 const session = require('express-session');
+const nunjucks = require('nunjucks');
 
 require("dotenv").config();  // .env
 const cors = require('cors');
-const nunjucks = require("nunjucks");
 
 
 const app = express();
@@ -40,10 +40,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // nunjucks 설정
 app.set("view engine", "html");
-nunjucks.configure("views", {
-  express: app,
-  watch: true,
+const env = nunjucks.configure('views', { autoescape: true, express: app });
+env.addFilter('numberFormat', function(num) {
+  if (typeof num !== 'number') num = Number(num);
+  if (isNaN(num)) return '';
+  return num.toLocaleString();
 });
+env.addFilter('dateFormat', function(dateStr) {
+  // dateStr: '2025-06-20' 또는 Date 객체
+  let d = (typeof dateStr === 'string') ? new Date(dateStr) : dateStr;
+  if (!(d instanceof Date) || isNaN(d)) return dateStr;
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일(${days[d.getDay()]})`;
+});
+
 
 // Supabase 미들웨어 
 app.use((req, res, next) => {
@@ -60,11 +70,13 @@ const signupRouter = require('./routes/signup');
 const homeRouter = require('./routes/home');
 const reservationRouter = require('./routes/reservation');
 const myReservationsRouter = require('./routes/my-reservations');
+const payRouter = require('./routes/pay');
 
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
 app.use('/home', homeRouter);
 app.use('/reservation', reservationRouter);
 app.use('/my-reservations', myReservationsRouter);
+app.use('/pay', payRouter);
 
 module.exports = app;

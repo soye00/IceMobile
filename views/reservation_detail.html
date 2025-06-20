@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+{% block style %}
+<style>
+.state-badge {
+  display: inline-block;
+  padding: 0.3em 1em;
+  border-radius: 1em;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+.info-section {
+  margin-top: 1.5em;
+  padding: 1em;
+  background: #f8f9fa;
+  border-radius: 1em;
+}
+.engineer-info {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+.engineer-img {
+  width: 60px; height: 60px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #eee;
+}
+.small-red {
+  color: #f44336; font-size: 0.9em; margin-top: 0.5em;
+  display: flex; align-items: center; gap: 0.3em;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div>
+  <div>
+    <span class="state-badge" style="background: {{ state_colors[reservation.state|string].color }}">
+      {{ state_colors[reservation.state|string].text }}
+    </span>
+  </div>
+  <div style="font-size:1.1em; margin-bottom:0.5em;">
+    {{ reservation.date | dateFormat }} {{ reservation.time }}
+  </div>
+  <div style="margin-bottom:1em;">
+    {{ state_messages[reservation.state|string] }}
+  </div>
+  <div class="small-red">
+    <i class="bi bi-exclamation-circle-fill"></i>
+    결제완료 후에는 전화로만 예약 취소를 할 수 있어요
+  </div>
+  <div class="info-section">
+    <div style="font-weight:bold; margin-bottom:0.5em;">예약 정보</div>
+    <div>예약일: {{ reservation.date | dateFormat }} {{ reservation.time }}</div>
+    <div>모델명: {{ reservation.model }}</div>
+    <div>결제금액: {{ reservation.price | numberFormat }}원</div>
+    <div>요구사항: {{ reservation.remark }}</div>
+  </div>
+  {% if reservation.state == 2 %}
+    <a href="/pay/checkout/{{ reservation.res_no }}" class="btn btn-primary w-100 mt-3">결제하기</a>
+  {% endif %}
+  {% if reservation.state == 4 and engineer %}
+    <div class="info-section">
+      <div style="font-weight:bold; margin-bottom:0.5em;">기사 정보</div>
+      <div class="engineer-info">
+        <img src="{{ engineer.file_url }}" class="engineer-img" alt="기사사진">
+        <div>
+          <div>{{ engineer.nm }} 기사님</div>
+          <div><i class="bi bi-telephone-fill"></i> {{ engineer.tel }}</div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %} 

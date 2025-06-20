@@ -1,0 +1,113 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+<link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
+<link rel="stylesheet" type="text/css" href="/style.css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://js.tosspayments.com/v2/standard"></script>
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  
+    <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
+      <div id="payment-method"></div>
+        
+      <!-- 결제 금액 표시 -->
+        <div style="padding-left: 25px; margin-top: 20px;">
+          <p class="typography--p">
+              <strong>결제 금액: </strong>
+              <span id="payment-amount">{{ reservation.price | safe }}</span>원
+          </p>
+        </div>      
+
+        
+        <div id="agreement"></div>
+        <div style="padding-left: 25px">
+            <div class="checkable typography--p">
+                <label for="coupon-box" class="checkable__label typography--regular">
+                    <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="false" />
+                    <span class="checkable__label-text">5,000원 쿠폰 적용</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="result wrapper">
+            <button class="button" id="payment-button" style="margin-top: 30px">
+                결제하기
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    // 금액 포맷팅 함수
+    function formatPrice(value) {
+        return value.toLocaleString('ko-KR'); // 천 단위 쉼표 추가
+    }
+
+    main();
+    async function main() {
+        const button = document.getElementById("payment-button");
+        const coupon = document.getElementById("coupon-box");
+        const paymentAmountElement = document.getElementById("payment-amount");
+        
+        const amount = {
+            currency: "KRW",
+            value: parseInt("{{ reservation.price | safe }}"),
+        };
+
+        // 초기 금액 표시
+        paymentAmountElement.textContent = formatPrice(amount.value);
+
+        const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+        const customerKey = "{{ reservation.email | safe }}";
+        const tossPayments = TossPayments(clientKey);
+
+        const widgets = tossPayments.widgets({ customerKey });
+
+        await widgets.setAmount(amount);
+        await widgets.renderPaymentMethods({
+            selector: "#payment-method",
+            variantKey: "DEFAULT",
+        });
+
+        await widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" });
+
+        coupon.addEventListener("change", async function () {
+            if (coupon.checked) {
+                const discountedAmount = amount.value - 5000;
+                await widgets.setAmount({
+                    currency: "KRW",
+                    value: discountedAmount,
+                });
+                // UI에 할인된 금액 표시
+                paymentAmountElement.textContent = formatPrice(discountedAmount);
+                return;
+            }
+
+            await widgets.setAmount({
+                currency: "KRW",
+                value: amount.value,
+            });
+            // UI에 원래 금액 표시
+            paymentAmountElement.textContent = formatPrice(amount.value);
+        });
+
+        button.addEventListener("click", async function () {
+            await widgets.requestPayment({
+                orderId: "{{ orderId | safe }}",
+                orderName: "{{ reservation.name | safe }}",
+                successUrl: window.location.origin + "/pay/success",
+                failUrl: window.location.origin + "/pay/fail",
+                customerEmail: "{{ reservation.email | safe }}",
+                customerName: "{{ reservation.name | safe }}",
+                customerMobilePhone: "{{ reservation.phone | safe }}",
+            });
+        });
+    }
+</script>
+{% endblock %}

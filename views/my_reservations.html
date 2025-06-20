@@ -24,7 +24,10 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">예약 내역</h2>
+
+
+
+    
   {% if error %}
     <div class="alert alert-danger">{{ error }}</div>
   {% endif %}
@@ -49,7 +52,15 @@
         <span class="res-status" style="background:{{ stateInfo.color }}; color:#fff;">{{ stateInfo.text }}</span>
       </div>
       <div class="d-flex justify-content-between align-items-center">
-        <div>결제예정금액: <b>{{ r.price or '확인중' }}</b></div>
+        <div>결제예정금액: 
+          <b>
+            {% if r.price %}
+              {{ r.price }}원
+            {% else %}
+              확인중
+            {% endif %}
+          </b>
+        </div>
       </div>
     </div>
   {% endfor %}
@@ -69,5 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
     el.textContent = formatKoreanDate(el.getAttribute('data-date'));
   });
 });
+
+// 숫자에 쉼표
+function formatNumberWithCommas(number) {
+  if (typeof number !== "number" && typeof number !== "string") return "";
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 </script>
 {% endblock %} 
