@@ -3,7 +3,15 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <h1>결제 완료</h1>
+    <div class="success-container">
+        <h1>결제 완료</h1>
+        <p>결제가 완료되었습니다.</p>
+        <p>고객 이름 : {{ reservation.name | safe }}</p>
+        <p>결제 금액 : {{ reservation.price | safe }}원</p> 
+         
+        <a href="/reservation/{{reservation.res_no}}" class="btn btn-primary">예약 상세 보기</a>
+    </div>
+      
 </div>
 {% endblock %}
 {% block script %}

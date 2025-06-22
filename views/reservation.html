@@ -82,7 +82,7 @@
         <textarea class="form-control" id="remark" name="remark" rows="2"></textarea>
       </div>
       <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" id="agree" name="agree" required>
+        <input class="form-check-input" type="checkbox" id="agree" name="agree" checked  required>
         <label class="form-check-label" for="agree">
           수집된 사진이 활용되는 것에 동의합니다.
         </label>
@@ -125,12 +125,13 @@ window.onload = function() {
 // 폼 제출 시 addr 필드 합치기
 const form = document.getElementById('reservation-form');
 form.onsubmit = function(e) {
-  // addr = postcode, address, address_detail 합치기
+  
+  // 주소 필드 합치기
   const postcode = document.getElementById('postcode').value;
   const address = document.getElementById('address').value;
   const address_detail = document.getElementById('address_detail').value;
   const addr = [postcode, address, address_detail].filter(Boolean).join(', ');
-  // addr을 hidden input으로 추가
+  
   let addrInput = document.getElementById('addr-hidden');
   if (!addrInput) {
     addrInput = document.createElement('input');

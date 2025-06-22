@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block style %}
+<style>
+    .signup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+.signup-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.signup-header a {
+  color: #000;
+  font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="signup-header">
+        <span><a href="/home"><i class="bi bi-chevron-left"></i></a></span>
+        <span class="signup-title">내정보</span>
+        <span> </span>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}
