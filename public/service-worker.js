@@ -1,7 +1,3 @@
-// 오프라인 -> 캐시 데이터 뿌려
-// pwa -> self
-// 브라우저 -> window
-// node -> global
 self.addEventListener('install', event => {
     console.log('[Service Worker] Installed');
     self.skipWaiting(); // 설치 후 즉시 활성화

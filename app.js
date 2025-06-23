@@ -37,10 +37,10 @@ app.use(
 
 const allowedOrigins = [
   "http://localhost:4000", // local dev
-  "https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app/", // 실제 배포 주소
+  "https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app", // ← 맨 뒤 슬래시 제거!
 ];
 
-app.use({
+app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -49,7 +49,8 @@ app.use({
     }
   },
   credentials: true,
-});
+}));
+
 
 app.use(logger("dev"));
 app.use(express.json());

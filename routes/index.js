@@ -12,6 +12,8 @@ router.get('/', function(req, res, next) {
 
 /* POST: 로그인 처리 */
 router.post('/login', async function(req, res, next) {
+  console.log('여기왔냐n');
+  console.log('req.body', req.body);
   const { email, password, remember } = req.body;
 
   // 입력 검증
