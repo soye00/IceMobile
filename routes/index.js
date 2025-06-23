@@ -53,6 +53,8 @@ router.post('/login', async function(req, res, next) {
       req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24시간
     }
 
+    console.log('req.session.user', req.session.user);
+
     // 로그인 성공 응답
     res.status(200).json({ message: '로그인 성공', redirect: '/home' });
   } catch (err) {
