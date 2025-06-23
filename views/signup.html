@@ -107,7 +107,7 @@
         <div class="step-description">회원 정보를 입력해 주세요.</div>
         <div class="mb-3">
           <label for="name" class="form-label">이름</label>
-          <input type="text" class="form-control" id="name" name="name" required>
+          <input type="text" class="form-control" id="name" name="name" placeholder="이름" required>
         </div>
         <div class="mb-3">
           <label for="phone" class="form-label">연락처</label>
@@ -116,12 +116,12 @@
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">이메일</label>
-          <input type="email" class="form-control" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+          <input type="email" class="form-control" id="email" name="email" placeholder="example@example.com" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
           <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
         </div>
         <div class="mb-3">
           <label FOR="password" class="form-label">비밀번호</label>
-          <input type="password" class="form-control" id="password" name="password" required pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$" title="비밀번호는 영문, 숫자, 특수문자를 포함해 8자 이상이어야 합니다.">
+          <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" required pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$" title="비밀번호는 영문, 숫자, 특수문자를 포함해 8자 이상이어야 합니다.">
           <div class="invalid-feedback">비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.</div>
         </div>
         <div class="mb-3">
@@ -133,13 +133,13 @@
           <label for="address" class="form-label">주소</label>
           <div class="row g-2">
             <div class="col-9">
-              <input type="text" class="form-control" id="postcode" name="postcode" readonly>
+              <input type="text" class="form-control" id="postcode" name="postcode" placeholder="우편번호" readonly>
             </div>
             <div class="col-3">
               <button type="button" class="btn btn-primary w-100" onclick="openAddressSearch()">검색</button>
             </div>
           </div>
-          <input type="text" class="form-control mt-2" id="address" name="address" readonly>
+          <input type="text" class="form-control mt-2" id="address" name="address" placeholder="주소" readonly>
           <input type="text" class="form-control mt-2" id="address_detail" name="address_detail" placeholder="상세주소">
         </div>
       </div>
@@ -154,7 +154,7 @@
       </div>
     </form>
 
-    <div class="btn-container">
+    <div class="btn-container mb-2">
       <button type="button" class="btn btn-outline-primary prev-step" style="display: none;">이전</button>
       <button type="button" class="btn btn-primary next-step">다음</button>
     </div>
