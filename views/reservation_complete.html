@@ -1,9 +1,17 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="container text-center mt-5">
+<div class="container">
+    <div class="signup-header">
+        <span><a href="/home"><i class="bi bi-chevron-left"></i></a></span>
+        <span class="signup-title">예약 완료</span>
+        <span> </span>
+    </div>
     
-  <h2>예약이 완료되었습니다!</h2>
-  <p>예약해주셔서 감사합니다.</p>
-  <a href="/my-reservations" class="btn btn-success mt-4">예약 조회하기</a>
+    <div class="text-center mt-5">
+        <h2>예약이 완료되었습니다!</h2>
+        <p>예약해주셔서 감사합니다.</p>
+        <a href="/my-reservations" class="btn btn-success mt-4">예약 조회하기</a>
+    </div>
+{% include 'partials/footer.html' %}  
 </div>
 {% endblock %} 

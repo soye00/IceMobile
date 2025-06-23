@@ -3,6 +3,12 @@
 {% endblock %}
 {% block content %}
 <div class="container">
+    <div class="signup-header">
+        <span><a href="/my-reservations"><i class="bi bi-chevron-left"></i></a></span>
+        <span class="signup-title">결제 완료</span>
+        <span> </span>
+    </div>
+    
     <div class="success-container">
         <h1>결제 완료</h1>
         <p>결제가 완료되었습니다.</p>
@@ -11,6 +17,7 @@
          
         <a href="/reservation/{{reservation.res_no}}" class="btn btn-primary">예약 상세 보기</a>
     </div>
+{% include 'partials/footer.html' %}  
       
 </div>
 {% endblock %}

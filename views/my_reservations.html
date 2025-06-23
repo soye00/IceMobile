@@ -1,25 +1,14 @@
 {% extends 'layout.html' %}
 {% block style %}
 <style>
-  .signup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-}
-.signup-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-.signup-header a {
-  color: #000;
-  font-weight: bold;
-}
+.res-card-container{
+  padding: 0 1rem;
+}  
 .res-card {
   border: 1px solid #eee;
   border-radius: 12px;
   padding: 1.2rem 1rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   cursor: pointer;
   transition: box-shadow 0.2s;
@@ -60,27 +49,36 @@
       '5': { 'text': '청소완료', 'color': '#607D8B' },
       '6': { 'text': '예약취소', 'color': '#F44336' }
     }[r.state|string] or { 'text': '알 수 없음', 'color': '#999999' } %}
-    <div class="res-card" onclick="location.href='/reservation/{{ r.res_no }}'">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <div style="font-size:1.1em; font-weight:500;">
-          <div class="res-date" data-date="{{ r.date }}"></div>
-          <div style="margin-left:0.5em;">예약시간 : {{ r.time }}</div>
+    <div class="res-card-container">
+      <div class="res-card" onclick="location.href='/reservation/{{ r.res_no }}'">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div style="font-size:1.1em; font-weight:500;">
+            <div class="res-date" data-date="{{ r.date }}"></div>
+            <div>예약시간 : {{ r.time }}</div>
+          </div>
+          <span class="res-status" style="background:{{ stateInfo.color }}; color:#fff;">{{ stateInfo.text }}</span>
         </div>
-        <span class="res-status" style="background:{{ stateInfo.color }}; color:#fff;">{{ stateInfo.text }}</span>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <div>결제예정금액: 
-          <b>
-            {% if r.price %}
-              {{ r.price }}원
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            {% if r.state >= 3 %}
+              결제 완료금액: 
             {% else %}
-              확인중
+              결제 예정금액: 
             {% endif %}
-          </b>
+            <b>
+              {% if r.price %}
+                <span class="formatted-price" data-price="{{ r.price }}"></span>원
+              {% else %}
+                확인중
+              {% endif %}
+            </b>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
   {% endfor %}
+  
+{% include 'partials/footer.html' %}  
 </div>
 {% endblock %}
 {% block script %}
@@ -95,6 +93,14 @@ function formatKoreanDate(dateStr) {
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.res-date').forEach(function(el) {
     el.textContent = formatKoreanDate(el.getAttribute('data-date'));
+  });
+  
+  // 가격에 쉼표 포맷팅 적용
+  document.querySelectorAll('.formatted-price').forEach(function(el) {
+    var price = el.getAttribute('data-price');
+    if (price) {
+      el.textContent = formatNumberWithCommas(price);
+    }
   });
 });
 

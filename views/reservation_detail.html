@@ -24,6 +24,7 @@
 .engineer-img {
   width: 60px; height: 60px; border-radius: 50%; object-fit: cover;
   border: 2px solid #eee;
+  margin-right: 1rem;
 }
 .small-red {
   color: #f44336; font-size: 0.9em; margin-top: 0.5em;
@@ -32,43 +33,75 @@
 </style>
 {% endblock %}
 {% block content %}
-<div>
-  <div>
-    <span class="state-badge" style="background: {{ state_colors[reservation.state|string].color }}">
-      {{ state_colors[reservation.state|string].text }}
-    </span>
+<div class="container">
+  <div class="signup-header">
+    <span><a href="/my-reservations"><i class="bi bi-chevron-left"></i></a></span>
+    <span class="signup-title">예약 상세</span>
+    <span> </span>
   </div>
-  <div style="font-size:1.1em; margin-bottom:0.5em;">
-    {{ reservation.date | dateFormat }} {{ reservation.time }}
+
+  <div class="content p-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="fw-bold fs-6 mb-2 mt-1">예약 현황</p>
+      <span class="state-badge" style="background: {{ state_colors[reservation.state|string].color }}">
+        {{ state_colors[reservation.state|string].text }}
+      </span>
+    </div>
+    <div class="d-flex flex-column align-items-center mt-4">
+      <div style="font-size:1.2em; margin-bottom:0.5em; color: #0084FF; font-weight: bold;">
+        {{ reservation.date | dateFormat }} {{ reservation.time }}
+      </div>
+      <div style="margin-bottom:1em;">
+        {{ state_messages[reservation.state|string] }}
+      </div>
+      <div class="small-red">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        결제완료 후에는 전화로만 예약 취소를 할 수 있어요
+      </div>
+    </div>
+  </div>   <!-- content -->
+
+    
+ <div class="p-4">
+  <div class="info-section p-4">
+    <div style="font-weight:bold; margin-bottom:1rem;">예약 정보</div>
+
+    <div class="d-flex mb-1">
+      <div class="min-w-25 w-25">예약일</div>
+      <div>{{ reservation.date | dateFormat }} {{ reservation.time }}</div>
+    </div>
+    <div class="d-flex mb-1">
+      <div class="min-w-25 w-25">모델명</div>
+      <div>{{ reservation.model }}</div>
+    </div>
+    <div class="d-flex mb-1">
+      <div class="min-w-25 w-25">결제금액</div>
+      <div>{{ reservation.price | numberFormat }}원</div>
+    </div>
+    <div class="d-flex mb-1">
+      <div class="min-w-25 w-25">요구사항</div>
+      <div>{{ reservation.remark }}</div>
+    </div>
   </div>
-  <div style="margin-bottom:1em;">
-    {{ state_messages[reservation.state|string] }}
-  </div>
-  <div class="small-red">
-    <i class="bi bi-exclamation-circle-fill"></i>
-    결제완료 후에는 전화로만 예약 취소를 할 수 있어요
-  </div>
-  <div class="info-section">
-    <div style="font-weight:bold; margin-bottom:0.5em;">예약 정보</div>
-    <div>예약일: {{ reservation.date | dateFormat }} {{ reservation.time }}</div>
-    <div>모델명: {{ reservation.model }}</div>
-    <div>결제금액: {{ reservation.price | numberFormat }}원</div>
-    <div>요구사항: {{ reservation.remark }}</div>
-  </div>
+
   {% if reservation.state == 2 %}
     <a href="/pay/checkout/{{ reservation.res_no }}" class="btn btn-primary w-100 mt-3">결제하기</a>
   {% endif %}
   {% if reservation.state == 4 and engineer %}
-    <div class="info-section">
-      <div style="font-weight:bold; margin-bottom:0.5em;">기사 정보</div>
+    <div class="info-section p-4">
+      <div style="font-weight:bold; margin-bottom:1rem;">기사 정보</div>
       <div class="engineer-info">
         <img src="{{ engineer.file_url }}" class="engineer-img" alt="기사사진">
         <div>
-          <div>{{ engineer.nm }} 기사님</div>
+          <div class="mb-2">{{ engineer.nm }} 기사님</div>
           <div><i class="bi bi-telephone-fill"></i> {{ engineer.tel }}</div>
         </div>
       </div>
     </div>
   {% endif %}
+ </div>
+  
+  
+{% include 'partials/footer.html' %}  
 </div>
 {% endblock %} 

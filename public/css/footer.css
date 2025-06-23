@@ -19,6 +19,20 @@
     gap: 0.3rem;
     color: #666;
     padding: 0.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .under-btn:focus {
+    outline: none;
+    border: none;
+  }
+  
+  .under-btn:active {
+    outline: none;
+    border: none;
   }
   
   .under-btn i {

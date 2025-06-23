@@ -2,41 +2,48 @@
 
 {% block style %}
 <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
-<link rel="stylesheet" type="text/css" href="/style.css" />
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script src="https://js.tosspayments.com/v2/standard"></script>
 {% endblock %}
 
 {% block content %}
-<div class="wrapper">
-  
-    <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
-      <div id="payment-method"></div>
+<div class="container">
+    <div class="signup-header">
+        <span><a href="/reservation/{{reservation.res_no}}"><i class="bi bi-chevron-left"></i></a></span>
+        <span class="signup-title">결제하기</span>
+        <span> </span>
+    </div>
+    
+    <div class="wrapper">
+        <div class="box_section" style="padding: 0 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
+          <div id="payment-method"></div>
         
-      <!-- 결제 금액 표시 -->
-        <div style="padding-left: 25px; margin-top: 20px;">
-          <p class="typography--p">
-              <strong>결제 금액: </strong>
-              <span id="payment-amount">{{ reservation.price | safe }}</span>원
-          </p>
-        </div>      
+          <!-- 결제 금액 표시 -->
+            <div style="padding-left: 25px; margin-top: 20px;">
+              <p class="typography--p">
+                  <strong>결제 금액: </strong>
+                  <span id="payment-amount">{{ reservation.price | safe }}</span>원
+              </p>
+            </div>      
 
-        
-        <div id="agreement"></div>
-        <div style="padding-left: 25px">
-            <div class="checkable typography--p">
-                <label for="coupon-box" class="checkable__label typography--regular">
-                    <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="false" />
-                    <span class="checkable__label-text">5,000원 쿠폰 적용</span>
-                </label>
+            
+            <div id="agreement"></div>
+            <div style="padding-left: 25px">
+                <div class="checkable typography--p">
+                    <label for="coupon-box" class="checkable__label typography--regular">
+                        <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="false" />
+                        <span class="checkable__label-text">5,000원 쿠폰 적용</span>
+                    </label>
+                </div>
             </div>
-        </div>
-        
-        <div class="result wrapper">
-            <button class="button" id="payment-button" style="margin-top: 30px">
-                결제하기
-            </button>
+            
+            <div class="result wrapper">
+                <button class="button btn btn-primary w-100" id="payment-button" style="margin-top: 30px">
+                    결제하기
+                </button>
+            </div>
         </div>
     </div>
 </div>

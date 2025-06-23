@@ -1,21 +1,5 @@
 {% extends 'layout.html' %}
 {% block style %}
-<style>
-.signup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-}
-.signup-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-.signup-header a {
-  color: #000;
-  font-weight: bold;
-}
-</style>
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -28,7 +12,7 @@
     {% if error %}
       <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
-    <form id="reservation-form" action="/reservation" method="post" class="p-3 mb-5">
+    <form id="reservation-form" action="/reservation" method="post" class="p-4">
       <div class="mb-3">
         <label for="name" class="form-label">이름</label>
         <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" readonly>
@@ -84,11 +68,13 @@
       <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" id="agree" name="agree" checked  required>
         <label class="form-check-label" for="agree">
-          수집된 사진이 활용되는 것에 동의합니다.
+          수집된 사진 활용에 동의합니다.
         </label>
       </div>
       <button type="submit" class="btn btn-primary w-100">예약하기</button>
     </form>
+    
+{% include 'partials/footer.html' %}  
     
 </div>
 {% endblock %}

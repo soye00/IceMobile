@@ -1,0 +1,49 @@
+body {
+   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+   color: #00B7FF;
+}
+
+
+/* 공통 컨테이너 스타일 */
+.container {
+    min-height: 100vh;
+    padding: 1rem 0;
+    margin-bottom: 5rem;
+}
+
+/* 공통 헤더 스타일 */
+.signup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.signup-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.signup-header a {
+    color: #000;
+    font-weight: bold;
+}
+.mypage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.mypage-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.mypage-header a {
+    color: #000;
+    font-weight: bold;
+} 

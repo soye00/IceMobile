@@ -1,30 +1,315 @@
 {% extends 'layout.html' %}
 {% block style %}
-<style>
-    .signup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-}
-.signup-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-.signup-header a {
-  color: #000;
-  font-weight: bold;
-}
-</style>
+<link rel="stylesheet" href="/css/mypage.css">
 {% endblock %}
+
 {% block content %}
 <div class="container">
-    <div class="signup-header">
-        <span><a href="/home"><i class="bi bi-chevron-left"></i></a></span>
-        <span class="signup-title">내정보</span>
-        <span> </span>
+    <div class="mypage-header">
+        <a href="/home" class="back-btn"><i class="bi bi-chevron-left"></i></a>
+        <span class="mypage-title">내정보</span>
+        <span></span>
     </div>
+    
+    {% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+    
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    
+    <!-- 프로필 정보 섹션 -->
+    <div class="profile-section p-4 mb-4">
+        <h3 class="section-title">기본 정보</h3>
+        <form id="profileForm">
+            <div class="form-group">
+                <label class="form-label">이메일</label>
+                <input type="email" class="form-input" id="email" value="{{ user.email }}" disabled>
+                <div class="email-notice" id="emailNotice">이메일은 수정할 수 없습니다.</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-input" id="name" value="{{ user.name }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">연락처</label>
+                <input type="tel" class="form-input" id="phone" value="{{ user.phone }}" required placeholder="010-1234-5678">
+                <div class="invalid-feedback" style="display: none;">연락처는 010-1234-5678 형식으로 입력해주세요.</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">주소</label>
+                <div class="address-input-group">
+                    <input type="text" class="form-input" id="postcode" value="{{ user.postcode }}" readonly style="flex: 1; margin-right: 0.5rem;">
+                    <button type="button" class="btn btn-primary" onclick="openAddressSearch()" style="flex-shrink: 0; min-width: 80px;">검색</button>
+                </div>
+                <input type="text" class="form-input mt-2" id="address" value="{{ user.address }}" readonly>
+                <input type="text" class="form-input mt-2" id="address_detail" value="{{ user.address_detail }}" placeholder="상세주소">
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">정보 수정</button>
+        </form>
+    </div>
+    
+    <!-- 비밀번호 변경 섹션 -->
+    <div class="password-section p-4 mb-4">
+        <h3 class="section-title">비밀번호 변경</h3>
+        
+        <form id="passwordForm">
+            <div class="form-group">
+                <label class="form-label">현재 비밀번호</label>
+                <input type="password" class="form-input" id="currentPassword" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">새 비밀번호</label>
+                <input type="password" class="form-input" id="newPassword" required>
+                <div class="invalid-feedback" style="display: none;">비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">새 비밀번호 확인</label>
+                <input type="password" class="form-input" id="confirmPassword" required>
+                <div id="password-confirm-feedback" class="invalid-feedback" style="display: none;"></div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">비밀번호 변경</button>
+        </form>
+    </div>
+    
+{% include 'partials/footer.html' %}  
 </div>
 {% endblock %}
+
 {% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+let phoneCheckTimeout;
+
+// 카카오 주소 검색
+function openAddressSearch() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      document.getElementById('postcode').value = data.zonecode;
+      document.getElementById('address').value = data.address;
+      document.getElementById('address_detail').focus();
+    }
+  }).open();
+}
+
+// 연락처 포맷팅 
+function formatPhoneNumber(value) {
+  const numbers = value.replace(/\D/g, '');
+  
+  if (numbers.startsWith('010')) {
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 7) {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    } else {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+    }
+  }
+  return value; 
+}
+
+// 전화번호 중복체크
+function checkPhoneDuplicate(phone) {
+  if (phone.length < 13) return; 
+  
+  clearTimeout(phoneCheckTimeout);
+  phoneCheckTimeout = setTimeout(() => {
+    axios.get('/mypage/check-phone', {
+      params: { phone: phone }
+    })
+    .then(function(response) {
+      if (response.data.isDuplicate) {
+        $('#phone').addClass('is-invalid');
+        $('#phone').next('.invalid-feedback').text(response.data.message).show();
+      } else {
+        $('#phone').removeClass('is-invalid');
+        $('#phone').next('.invalid-feedback').hide();
+      }
+    })
+    .catch(function(error) {
+      console.error('전화번호 중복체크 오류:', error);
+    });
+  }, 500);
+}
+
+$(document).ready(function() {
+    // 이메일 클릭 시 알림 표시
+    const emailInput = document.getElementById('email');
+    const emailNotice = document.getElementById('emailNotice');
+    
+    emailInput.addEventListener('click', function() {
+        emailNotice.style.display = 'block';
+        setTimeout(() => {
+            emailNotice.style.display = 'none';
+        }, 3000);
+    });
+    
+    // 연락처 실시간 포맷팅 및 검증
+    $('#phone').on('input', function() {
+        const $this = $(this);
+        let value = $this.val();
+        value = formatPhoneNumber(value);
+        $this.val(value);
+
+        const phoneRegex = /^010-\d{4}-\d{4}$/;
+        if (value && !phoneRegex.test(value)) {
+            $this.addClass('is-invalid');
+            $this.next('.invalid-feedback').show();
+        } else {
+            $this.removeClass('is-invalid');
+            $this.next('.invalid-feedback').hide();
+            if (phoneRegex.test(value)) {
+                checkPhoneDuplicate(value);
+            }
+        }
+    });
+
+    // 비밀번호 실시간 검증
+    $('#newPassword, #confirmPassword').on('input', function() {
+        const password = $('#newPassword').val();
+        const passwordConfirm = $('#confirmPassword').val();
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$/;
+
+        // 비밀번호 복잡성 검증
+        if (password && !passwordRegex.test(password)) {
+            $('#newPassword').addClass('is-invalid');
+            $('#newPassword').next('.invalid-feedback').show();
+        } else {
+            $('#newPassword').removeClass('is-invalid');
+            $('#newPassword').next('.invalid-feedback').hide();
+        }
+
+        // 비밀번호 확인 복잡성 검증
+        if (passwordConfirm && !passwordRegex.test(passwordConfirm)) {
+            $('#confirmPassword').addClass('is-invalid');
+            $('#password-confirm-feedback').text('비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.').show();
+        } else if (passwordConfirm && password !== passwordConfirm) {
+            $('#confirmPassword').addClass('is-invalid');
+            $('#password-confirm-feedback').text('비밀번호가 일치하지 않습니다.').show();
+        } else if (passwordConfirm) {
+            $('#confirmPassword').removeClass('is-invalid');
+            $('#password-confirm-feedback').hide();
+        }
+    });
+    
+    // 프로필 정보 수정
+    const profileForm = document.getElementById('profileForm');
+    profileForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            postcode: document.getElementById('postcode').value.trim(),
+            address: document.getElementById('address').value.trim(),
+            address_detail: document.getElementById('address_detail').value.trim()
+        };
+        
+        // 입력 검증
+        if (!formData.name || !formData.phone || !formData.postcode || !formData.address) {
+            alert('모든 필수 필드를 입력해주세요.');
+            return;
+        }
+
+        // 연락처 검증
+        const phoneRegex = /^010-\d{4}-\d{4}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            alert('연락처는 010-1234-5678 형식으로 입력해주세요.');
+            return;
+        }
+
+        // 전화번호 중복 여부 확인
+        if ($('#phone').hasClass('is-invalid')) {
+            alert("전화번호를 확인해주세요.");
+            return;
+        }
+        
+        try {
+            const response = await fetch('/mypage/update-profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                alert(result.message);
+                location.reload();
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('프로필 업데이트 오류:', error);
+            alert('서버 오류가 발생했습니다.');
+        }
+    });
+    
+    // 비밀번호 변경
+    const passwordFormElement = document.getElementById('passwordForm');
+    passwordFormElement.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // 입력 검증
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            alert('모든 필드를 입력해주세요.');
+            return;
+        }
+        
+        if (newPassword !== confirmPassword) {
+            alert('새 비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        // 비밀번호 복잡성 검증
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            alert("비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.");
+            $('#newPassword').addClass('is-invalid');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/mypage/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    currentPassword,
+                    newPassword,
+                    confirmPassword
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                alert(result.message);
+                passwordFormElement.reset();
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('비밀번호 변경 오류:', error);
+            alert('서버 오류가 발생했습니다.');
+        }
+    });
+});
+</script>
 {% endblock %}
