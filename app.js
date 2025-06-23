@@ -40,7 +40,7 @@ app.use(
 
 const allowedOrigins = [
   "http://localhost:4000", // local dev
-  "https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app", // ← 맨 뒤 슬래시 제거!
+  "https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app", 
 ];
 app.use(cors({
   origin: function (origin, callback) {
