@@ -1,7 +1,7 @@
 .footer {
     display: flex;
     justify-content: space-around;
-    padding: 1.5rem 0;
+    padding: 1rem 0 1.5rem;
     background: #fff;
     border-top: 1px solid #e0e0e0;
     position: fixed;
