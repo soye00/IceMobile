@@ -6,8 +6,9 @@ router.get('/', function(req, res, next) {
   if(req.session.user) {
     res.redirect('/home');
   }
-
-  res.render('index', { title: 'ICECARE' });
+  else{
+    res.render('index', { title: 'ICECARE' });
+  }
 });
 
 /* POST: 로그인 처리 */

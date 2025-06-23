@@ -12,6 +12,8 @@ const cors = require("cors");
 
 const app = express();
 
+app.set('trust proxy', 1); // CloudType에서는 프록시 신뢰 설정 필수
+
 // Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -31,6 +33,7 @@ app.use(
     cookie: {
       secure: process.env.NODE_ENV === "production", // 배포 시 HTTPS 필요 => secure: true 로 설정하기!
       maxAge: 24 * 60 * 60 * 1000, // 24시간
+      sameSite: "none",
     },
   })
 );
@@ -39,16 +42,19 @@ const allowedOrigins = [
   "http://localhost:4000", // local dev
   "https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app", // ← 맨 뒤 슬래시 제거!
 ];
-
 app.use(cors({
   origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:4000',
+      'https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app'
+    ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,
+  credentials: true
 }));
 
 
