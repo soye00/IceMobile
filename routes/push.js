@@ -29,4 +29,14 @@ router.post('/subscribe', async(req, res) => {
     res.status(201).json({});
 });
 
+
+router.get('/send/:phone', async(req, res) => {
+    const { phone } = req.params;
+    const { data, error } = await req.supabase
+      .from('push_subscribe')
+      .select('*')
+      .eq('phone', phone);
+    console.log(data);
+});
+
 module.exports = router;

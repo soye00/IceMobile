@@ -80,6 +80,39 @@
         </form>
     </div>
     
+    <!-- <div>
+        <h3 class="mt-4 mb-2">청소 완료 예약 기록</h3>
+    {% if cleanReservations and cleanReservations.length > 0 %}
+      {% for r in cleanReservations %}
+        <div class="res-card-container">
+          <div class="res-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div style="font-size:1.1em; font-weight:500;">
+                <div class="res-date" data-date="{{ r.date }}"></div>
+                <div>예약시간 : {{ r.time }}</div>
+              </div>
+              <span class="res-status" style="background:#607D8B; color:#fff;">청소완료</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                결제 완료금액: 
+                <b>
+                  {% if r.price %}
+                    <span class="formatted-price" data-price="{{ r.price }}"></span>원
+                  {% else %}
+                    확인중
+                  {% endif %}
+                </b>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="text-muted mb-4">청소 완료된 예약이 없습니다.</div>
+    {% endif %}
+    </div> -->
+    
 {% include 'partials/footer.html' %}  
 </div>
 {% endblock %}

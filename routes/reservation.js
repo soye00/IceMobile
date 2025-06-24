@@ -191,4 +191,38 @@ router.get("/my-reservations", async function (req, res, next) {
   }
 });
 
+// 예약취소
+router.post('/cancel/:res_no', async function(req, res, next) {
+  const res_no = req.params.res_no;
+  const user = req.session?.user;
+  if (!user) return res.status(401).json({ success: false, error: '로그인이 필요합니다.' });
+  try {
+    // 예약 정보 확인 (본인 소유 & 상태 체크)
+    const { data: reservation, error } = await req.supabase
+      .from('reservation')
+      .select('*')
+      .eq('res_no', res_no)
+      .eq('user_email', user.email)
+      .single();
+    if (error || !reservation) {
+      return res.status(404).json({ success: false, error: '예약 정보를 찾을 수 없습니다.' });
+    }
+    if (reservation.state > 3) {
+      return res.status(400).json({ success: false, error: '이 예약은 취소할 수 없습니다.' });
+    }
+    // 예약 삭제
+    const { error: delError } = await req.supabase
+      .from('reservation')
+      .delete()
+      .eq('res_no', res_no)
+      .eq('user_email', user.email);
+    if (delError) {
+      return res.status(500).json({ success: false, error: '예약 취소에 실패했습니다.' });
+    }
+    return res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
 module.exports = router;

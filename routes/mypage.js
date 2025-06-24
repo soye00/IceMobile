@@ -16,6 +16,14 @@ router.get('/', async (req, res, next) => {
       .eq('email', req.session.user.email)
       .single();
 
+    // 청소완료 예약 기록 조회
+    // const { data: cleanReservations, error: resError } = await req.supabase
+    //   .from('reservation')
+    //   .select('*')
+    //   .eq('user_email', req.session.user.email)
+    //   .eq('state', 5)
+    //   .order('date', { ascending: false });
+
     if (error) {
       console.error('사용자 정보 조회 오류:', error);
       return res.status(500).render('error', { message: '사용자 정보를 불러오는데 실패했습니다.' });
@@ -44,8 +52,9 @@ router.get('/', async (req, res, next) => {
         address,
         address_detail
       },
-      message: req.query.message || null,
-      error: req.query.error || null
+        // cleanReservations,
+        // message: req.query.message || null,
+        // error: req.query.error || null
     });
   } catch (err) {
     console.error('내정보 오류:', err);
