@@ -14,7 +14,7 @@ router.get("/", function (req, res, next) {
 router.post("/login", async function (req, res, next) {
   console.log("여기왔냐n");
   console.log("req.body", req.body);
-  const { email, password, remember, endpoint, p256dh, auth } = req.body;
+  const { email, password, remember, pushData:{ endpoint, p256dh, auth }} = req.body;
 
   // 입력 검증
   if (!email || !password) {
@@ -30,6 +30,7 @@ router.post("/login", async function (req, res, next) {
       .single();
 
     if (endpoint && p256dh && auth) {
+      console.log("푸시 구독 정보 저장 시작");
       const { error: upsertError } = await req.supabase
         .from("push_subscribe")
         .upsert(
