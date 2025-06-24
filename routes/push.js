@@ -7,7 +7,7 @@ router.post('/subscribe', async(req, res) => {
     const subscription = {endpoint, p256dh, auth};
     console.log(subscription);
     if (endpoint && p256dh && auth) {
-        const { error: upsertError } = await supabase
+        const { error: upsertError } = await req.supabase
           .from('push_subscribe')
           .upsert([
             {
