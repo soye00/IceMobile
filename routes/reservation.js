@@ -14,7 +14,7 @@ router.get("/:res_no", async function (req, res, next) {
   if (!user) return res.redirect("/");
   try {
     // 예약 정보 가져오기
-    const { data: reservation, error } = await req.supabase
+    const { data: reservation, error } = await supabase
       .from("reservation")
       .select("*")
       .eq("res_no", res_no)
@@ -25,7 +25,7 @@ router.get("/:res_no", async function (req, res, next) {
     // 기사 정보 (state==4일 때만)
     let engineer = null;
     if (reservation.state == 4) {
-      const { data: engineers, error: engErr } = await req.supabase
+      const { data: engineers, error: engErr } = await supabase
         .from("member")
         .select("file_url, nm, tel")
         .eq("auth", 2)
@@ -100,7 +100,7 @@ router.post("/", async function (req, res, next) {
   const gisa_email = null; // 기사 배정 전
 
   try {
-    const { data, error } = await req.supabase.from("reservation").insert({
+    const { data, error } = await supabase.from("reservation").insert({
       date,
       time,
       addr,
@@ -123,7 +123,7 @@ router.post("/", async function (req, res, next) {
     }
 
     // 2. 푸시 구독 정보 가져오기
-    const { data: pushSub, error: pushError } = await req.supabase
+    const { data: pushSub, error: pushError } = await supabase
       .from("push_subscribe")
       .select("*")
       .eq("phone", "admin")
@@ -173,7 +173,7 @@ router.get("/my-reservations", async function (req, res, next) {
   const user = req.session?.user;
   if (!user) return res.redirect("/");
   try {
-    const { data: reservations, error } = await req.supabase
+      const { data: reservations, error } = await supabase
       .from("reservation")
       .select("*")
       .eq("user_email", user.email)
