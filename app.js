@@ -6,6 +6,13 @@ const { createClient } = require("@supabase/supabase-js");
 // const multer = require('multer');
 const session = require("express-session");
 const nunjucks = require("nunjucks");
+const webpush = require('web-push');
+
+webpush.setVapidDetails(
+  'mailto:you@example.com',
+  "BBAM2GOE13h59ZDNqToC23HdNafs2eypet_bh6sRh0wvxIbZknpiVijBqrSealSwYBkBLyTE_DTQmzmp8yTDCZE",
+  "MPrJJYxypgckCHa45ylTc_2z71QUfpy58NOMWf2E2OQ"
+);
 
 require("dotenv").config(); // .env
 const cors = require("cors");
