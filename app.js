@@ -31,22 +31,22 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // 배포 시 HTTPS 필요 => secure: true 로 설정하기!
+      secure: process.env.NODE_ENV === "productionㅇㅇㅇ", // 배포 시 HTTPS 필요 => secure: true 로 설정하기!
       maxAge: 24 * 60 * 60 * 1000, // 24시간
-      sameSite: "none",
+      sameSite: "lax",  // 배포 -> none, 개발 -> lax
     },
   })
 );
 
-const allowedOrigins = [
-  "http://localhost:4000", // local dev
-  "https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app", 
-];
+
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
       'http://localhost:4000',
-      'https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app'
+      'https://port-0-icemobile-manaowvf213a09cd.sel4.cloudtype.app',
+      'https://mini-project06-ice-admin.vercel.app',
+      "http://localhost:5174",
+      "http://192.168.0.42:5174",
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -95,6 +95,9 @@ const reservationRouter = require("./routes/reservation");
 const myReservationsRouter = require("./routes/my-reservations");
 const payRouter = require("./routes/pay");
 const mypageRouter = require("./routes/mypage");
+const guideRouter = require("./routes/guide");
+const centerRouter = require("./routes/center");
+const pushRouter = require("./routes/push");
 
 app.use("/", indexRouter);
 app.use("/signup", signupRouter);
@@ -103,5 +106,8 @@ app.use("/reservation", reservationRouter);
 app.use("/my-reservations", myReservationsRouter);
 app.use("/pay", payRouter);
 app.use("/mypage", mypageRouter);
+app.use("/guide", guideRouter);
+app.use("/center", centerRouter);
+app.use("/push", pushRouter);
 
 module.exports = app;

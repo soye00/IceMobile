@@ -1,0 +1,177 @@
+{% extends 'layout.html' %}
+{% block style %}
+<style>
+    .guide-container {
+        max-width: 800px;
+        margin: 0 auto 7.5rem;
+        padding: 0 20px;
+    }
+    
+    
+    .guide-section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .guide-section h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+        color: #333;
+    }
+    
+    .guide-section h1 span {
+        color: #194A9C;
+    }
+    
+    .guide-section p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        color: #555;
+    }
+    
+    .guide-section p.highlight {
+        color: #407CBD;
+        font-weight: 500;
+    }
+    
+    .guide-images {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .guide-images img {
+        width: 70%;
+        max-width: 300px;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+    
+    .guide-images img:hover {
+        transform: scale(1.02);
+    }
+    
+    .guide-process {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    
+    .guide-process img {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+    }
+    
+    .recommendation {
+        background: linear-gradient(135deg, #194A9C, #407CBD);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        margin: 2rem 0;
+        box-shadow: 0 4px 16px rgba(25, 74, 156, 0.3);
+    }
+    
+    .recommendation p {
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0;
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .guide-section {
+            padding: 1.5rem;
+            /* margin-bottom: 2rem; */
+        }
+        
+        .guide-section h1 {
+            font-size: 1.5rem;
+        }
+        
+        .guide-section p {
+            font-size: 1rem;
+        }
+        
+        .guide-images img,
+        .guide-process img {
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="guide-container">
+    <div class="signup-header">
+        <span><a href="/"><i class="bi bi-chevron-left"></i></a></span>
+        <h1 class="signup-title">서비스 안내</h1>
+        <span></span>
+    </div>
+    
+    <div class="guide-section">
+        <h1><span>제빙기 케어</span>는<br>왜, 필요할까요?</h1>
+        <p class="highlight">제빙기의 내부는<br> 
+            항상 습한 상태를 유지하기 때문에,<br>
+            정기적인 위생 관리가 필수입니다.</p>
+
+        <p>습기가 많은 제빙기 내부는<br>
+            세균과 곰팡이가 자라기 쉬운 환경입니다.<br>
+            이러한 유해균은<br>
+            얼음의 위생을 해칠 뿐만 아니라,<br>
+            호흡기 감염이나<br>
+             피부 질환을 유발할 수 있어<br>
+            각별한 주의가 필요합니다.</p>
+            
+        <p class="highlight">제빙기의 냉각기에는<br>
+            니켈 도금이 되어 있으며,<br>
+            정기적인 관리가 반드시 필요합니다.</p>
+
+        <p>관리가 소홀할 경우 도금이 벗겨져<br>
+            미세한 니켈 가루가 수조에 섞일 수 있습니다.<br>
+            니켈은 발암 가능 물질로<br>
+            분류되고 있으며,<br>
+            장기간 노출 시 폐암이나 신장 질환 등<br>
+            건강에 악영향을 줄 수 있어<br>
+            주기적인 청소와 점검이 매우 중요합니다.</p>
+    </div>
+    
+    <div class="guide-section">
+        <h1><span>제빙기 케어</span>가<br>필요한 시점은?</h1>
+        <div class="guide-images">
+            <img src="/images/guide1.png" alt="얼음안에 이물질이 들어갔을 때">
+            <img src="/images/guide2.png" alt="케어 시점이 도래했을 때">
+            <img src="/images/guide3.png" alt="얼음에서 이상한 냄새가 날 때">
+        </div>
+        <div class="recommendation">
+            <p>평상시에는 3개월에 한번<br>
+                여름철에는 최소 1~2개월에 한번<br> 
+               완전분해 케어를 추천합니다.</p>
+        </div>
+    </div>
+    
+    <div class="guide-section">
+        <h1><span>제빙기 케어</span> 진행과정</h1>
+        <div class="guide-process">
+            <img src="/images/guide5.png" alt="제빙기 케어 진행과정">
+            <img src="/images/guide6.png" alt="제빙기 케어 진행과정">
+            <img src="/images/guide7.png" alt="제빙기 케어 진행과정">
+            <img src="/images/guide8.png" alt="제빙기 케어 진행과정">
+            <img src="/images/guide9.png" alt="제빙기 케어 진행과정">
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

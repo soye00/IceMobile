@@ -162,6 +162,41 @@
 {% endblock %}
 {% block script %}
 <script>
+  // 푸시 구독 
+  console.log('푸시 구독 시작');
+  let _pushSubscription = null;
+  (async function () {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      try {
+        const reg = await navigator.serviceWorker.register('/service-worker.js');
+        let subscription = await reg.pushManager.getSubscription();
+        if (!subscription) {
+          const vapidPublicKey = 'BBAM2GOE13h59ZDNqToC23HdNafs2eypet_bh6sRh0wvxIbZknpiVijBqrSealSwYBkBLyTE_DTQmzmp8yTDCZE';
+          const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+          subscription = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedVapidKey
+          });
+        }
+        window._pushSubscription = subscription;
+        _pushSubscription = subscription;
+      } catch (e) {
+        console.warn('푸시 구독 실패:', e);
+      }
+    }
+  })();
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
     document.addEventListener('DOMContentLoaded', () => {
   // remember 체크박스 상태 복원
   if (localStorage.getItem('remember') === 'true') {
@@ -206,4 +241,5 @@
   });
 });
 </script>
+
 {% endblock %}
