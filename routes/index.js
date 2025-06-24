@@ -1,63 +1,70 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-router.get('/', function(req, res, next) {
-  if(req.session.user) {
-    res.redirect('/home');
-  }
-  else{
-    res.render('index', { title: 'ICECARE' });
+router.get("/", function (req, res, next) {
+  if (req.session.user) {
+    res.redirect("/home");
+  } else {
+    res.render("index", { title: "ICECARE" });
   }
 });
 
 /* POST: 로그인 처리 */
-router.post('/login', async function(req, res, next) {
-  console.log('여기왔냐n');
-  console.log('req.body', req.body);
+router.post("/login", async function (req, res, next) {
+  console.log("여기왔냐n");
+  console.log("req.body", req.body);
   const { email, password, remember, endpoint, p256dh, auth } = req.body;
 
   // 입력 검증
   if (!email || !password) {
-    return res.status(400).json({ error: '이메일과 비밀번호를 입력해주세요.' });
+    return res.status(400).json({ error: "이메일과 비밀번호를 입력해주세요." });
   }
 
   try {
-    if (endpoint && p256dh && auth) {
-      const { error: upsertError } = await supabase
-        .from('push_subscribe')
-        .upsert([
-          {
-            phone,
-            endpoint,
-            p256dh,
-            auth,
-            updated_at: new Date()
-          }
-        ], { onConflict: ['phone'] });
-  
-      if (upsertError) {
-        console.error('푸시 구독 정보 저장 실패:', upsertError);
-      } else {
-        console.log('푸시 구독 정보 저장 성공 - phone:', phone);
-      }
-    }
     // Supabase에서 사용자 조회
     const { data, error } = await req.supabase
-      .from('customer')
-      .select('email, password, name, phone, addr')
-      .eq('email', email)
+      .from("customer")
+      .select("email, password, name, phone, addr")
+      .eq("email", email)
       .single();
 
+    if (endpoint && p256dh && auth) {
+      const { error: upsertError } = await req.supabase
+        .from("push_subscribe")
+        .upsert(
+          [
+            {
+              phone: data.phone,
+              endpoint,
+              p256dh,
+              auth,
+              updated_at: new Date(),
+            },
+          ],
+          { onConflict: ["phone"] }
+        );
+
+      if (upsertError) {
+        console.error("푸시 구독 정보 저장 실패:", upsertError);
+      } else {
+        console.log("푸시 구독 정보 저장 성공 - phone:", phone);
+      }
+    }
+
     if (error || !data) {
-      console.error('로그인 오류: 사용자 없음 또는 Supabase 오류', error);
-      return res.status(401).json({ error: '이메일 또는 비밀번호가 잘못되었습니다.' });
+      console.error("로그인 오류: 사용자 없음 또는 Supabase 오류", error);
+      return res
+        .status(401)
+        .json({ error: "이메일 또는 비밀번호가 잘못되었습니다." });
     }
 
     // 비밀번호 비교
     const isMatch = await bcrypt.compare(password, data.password);
     if (!isMatch) {
-      return res.status(401).json({ error: '이메일 또는 비밀번호가 잘못되었습니다.' });
+      return res
+        .status(401)
+        .json({ error: "이메일 또는 비밀번호가 잘못되었습니다." });
     }
 
     // 세션에 사용자 정보 저장
@@ -65,7 +72,7 @@ router.post('/login', async function(req, res, next) {
       email: data.email,
       name: data.name,
       phone: data.phone,
-      addr: data.addr
+      addr: data.addr,
     };
 
     // 로그인 유지 설정
@@ -75,27 +82,27 @@ router.post('/login', async function(req, res, next) {
       req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24시간
     }
 
-    console.log('req.session.user', req.session.user);
+    console.log("req.session.user", req.session.user);
 
     // 로그인 성공 응답
-    res.status(200).json({ message: '로그인 성공', redirect: '/home' });
+    res.status(200).json({ message: "로그인 성공", redirect: "/home" });
   } catch (err) {
-    console.error('로그인 처리 중 오류:', err);
-    res.status(500).json({ error: '서버 오류가 발생했습니다.' });
+    console.error("로그인 처리 중 오류:", err);
+    res.status(500).json({ error: "서버 오류가 발생했습니다." });
   }
 });
 
 /* POST: 로그아웃 처리 */
-router.post('/logout', function(req, res, next) {
-  req.session.destroy(err => {
+router.post("/logout", function (req, res, next) {
+  req.session.destroy((err) => {
     if (err) {
-      console.error('세션 종료 오류:', err);
-      return res.status(500).json({ error: '로그아웃 중 오류가 발생했습니다.' });
+      console.error("세션 종료 오류:", err);
+      return res
+        .status(500)
+        .json({ error: "로그아웃 중 오류가 발생했습니다." });
     }
-    res.status(200).json({ message: '로그아웃 성공', redirect: '/' });
+    res.status(200).json({ message: "로그아웃 성공", redirect: "/" });
   });
 });
-
-
 
 module.exports = router;
