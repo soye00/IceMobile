@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 router.post('/login', async function(req, res, next) {
   console.log('여기왔냐n');
   console.log('req.body', req.body);
-  const { email, password, remember } = req.body;
+  const { email, password, remember, endpoint, p256dh, auth } = req.body;
 
   // 입력 검증
   if (!email || !password) {
@@ -23,6 +23,25 @@ router.post('/login', async function(req, res, next) {
   }
 
   try {
+    if (endpoint && p256dh && auth) {
+      const { error: upsertError } = await supabase
+        .from('push_subscribe')
+        .upsert([
+          {
+            phone,
+            endpoint,
+            p256dh,
+            auth,
+            updated_at: new Date()
+          }
+        ], { onConflict: ['phone'] });
+  
+      if (upsertError) {
+        console.error('푸시 구독 정보 저장 실패:', upsertError);
+      } else {
+        console.log('푸시 구독 정보 저장 성공 - phone:', phone);
+      }
+    }
     // Supabase에서 사용자 조회
     const { data, error } = await req.supabase
       .from('customer')

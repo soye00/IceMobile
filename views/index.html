@@ -1,152 +1,164 @@
-{% extends 'layout.html' %}
-{% block style %}
+{% extends 'layout.html' %} {% block style %}
 <style>
-    .index-container {
-        background-color: #0084FF;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        padding: 1rem 0;
+  .index-container {
+    background-color: #0084ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem 0;
+  }
+  .logo {
+    width: 60%;
+    max-width: 250px;
+    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+  }
+  .logo img {
+    width: 100%;
+    margin-top: 2rem;
+    height: auto;
+  }
+  .peng {
+    width: 90%;
+    max-width: 250px;
+    margin-bottom: 0.5rem;
+  }
+  .peng img {
+    width: 100%;
+    /* height: auto; */
+  }
+  .form {
+    width: 90%;
+    max-width: 320px;
+    margin-top: 1rem;
+  }
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 0.8rem !important;
+    margin-bottom: 0.8rem !important;
+    color: #333 !important;
+    font-size: 0.9rem !important;
+  }
+  .form-control::placeholder {
+    color: #666 !important;
+    font-size: 0.9rem !important;
+  }
+  .form-control:focus {
+    background-color: white !important;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
+    outline: none !important;
+    transform: translateY(-1px);
+  }
+  .form-check {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  .form-check-label {
+    cursor: pointer;
+  }
+  .form-check-input {
+    margin-right: 8px;
+  }
+  .btn-login {
+    background-color: white !important;
+    color: #0084ff !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 0.8rem !important;
+    width: 100%;
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    transition: transform 0.2s;
+  }
+  .btn-login:hover {
+    transform: scale(1.02);
+  }
+  .auth-links {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    flex-wrap: wrap;
+  }
+  .auth-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+  }
+  .auth-links a:hover {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+  }
+  .separator {
+    color: white;
+    font-size: 0.8rem;
+  }
+
+  @media (max-height: 700px) {
+    .container {
+      padding: 0.5rem 0;
     }
     .logo {
-        width: 60%;
-        max-width: 250px;
-        margin-top: 3rem;
-        margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
     }
     .logo img {
-        width: 100%;
-        margin-top: 2rem;
-        height: auto;
-    }
-    .peng {
-        width: 90%;
-        max-width: 250px;
-        margin-bottom: 0.5rem;
-    }
-    .peng img {
-        width: 100%;
-        /* height: auto; */
+      margin-top: 1rem;
     }
     .form {
-        width: 90%;
-        max-width: 320px;
-        margin-top: 1rem;
+      margin-top: 0.5rem;
+    }
+  }
+
+  @media (max-height: 600px) {
+    .logo {
+      max-width: 150px;
+    }
+    .peng {
+      max-width: 400px;
     }
     .form-control {
-        background-color: rgba(255, 255, 255, 0.8) !important;
-        border: none !important;
-        border-radius: 5px !important;
-        padding: 0.8rem !important;
-        margin-bottom: 0.8rem !important;
-        color: #333 !important;
-        font-size: 0.9rem !important;
-    }
-    .form-control::placeholder {
-        color: #666 !important;
-        font-size: 0.9rem !important;
-    }
-    .form-control:focus {
-        background-color: white !important;
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
-        outline: none !important;
-        transform: translateY(-1px);
-    }
-    .form-check {
-        color: white;
-        margin-bottom: 1rem;
-        font-size: 0.9rem;
-    }
-    .form-check-label{
-      cursor: pointer;
-    }
-    .form-check-input {
-        margin-right: 8px;
+      padding: 0.6rem !important;
+      margin-bottom: 0.6rem !important;
     }
     .btn-login {
-        background-color: white !important;
-        color: #0084FF !important;
-        border: none !important;
-        border-radius: 5px !important;
-        padding: 0.8rem !important;
-        width: 100%;
-        font-weight: bold !important;
-        font-size: 1rem !important;
-        transition: transform 0.2s;
+      padding: 0.6rem !important;
     }
-    .btn-login:hover {
-        transform: scale(1.02);
-    }
-    .auth-links {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        color: white;
-        flex-wrap: wrap;
-    }
-    .auth-links a {
-        color: white;
-        text-decoration: none;
-        font-size: 0.8rem;
-        transition: all 0.3s;
-    }
-    .auth-links a:hover {
-        color: rgba(255, 255, 255, 0.8);
-        text-decoration: underline;
-    }
-    .separator {
-        color: white;
-        font-size: 0.8rem;
-    }
-
-    @media (max-height: 700px) {
-        .container {
-            padding: 0.5rem 0;
-        }
-        .logo {
-            margin-top: 0.5rem;
-        }
-        .logo img {
-            margin-top: 1rem;
-        }
-        .form {
-            margin-top: 0.5rem;
-        }
-    }
-
-    @media (max-height: 600px) {
-        .logo {
-            max-width: 150px;
-        }
-        .peng {
-            max-width: 400px;
-        }
-        .form-control {
-            padding: 0.6rem !important;
-            margin-bottom: 0.6rem !important;
-        }
-        .btn-login {
-            padding: 0.6rem !important;
-        }
-    }
+  }
 </style>
-{% endblock %}
-{% block content %}
+{% endblock %} {% block content %}
 <div class="index-container">
   <div class="logo">
-    <img src="/images/logo.png" alt="ICECARE">
+    <img src="/images/logo.png" alt="ICECARE" />
   </div>
   <div class="peng">
-    <img src="/images/peng.png" alt="ICECARE">
+    <img src="/images/peng.png" alt="ICECARE" />
   </div>
   <div class="form">
-    <input type="email" class="form-control" id="email" placeholder="이메일" required value="choi@naver.com">
-    <input type="password" class="form-control" id="password" placeholder="비밀번호" required value="choi777*">
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      placeholder="이메일"
+      required
+      value="choi@naver.com"
+    />
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      placeholder="비밀번호"
+      required
+      value="choi777*"
+    />
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="remember">
+      <input class="form-check-input" type="checkbox" id="remember" />
       <label class="form-check-label" for="remember">로그인 유지</label>
     </div>
     <button class="btn btn-login">로그인</button>
@@ -159,36 +171,40 @@
     </div>
   </div>
 </div>
-{% endblock %}
-{% block script %}
+{% endblock %} {% block script %}
 <script>
-  // 푸시 구독 
-  console.log('푸시 구독 시작');
+  // 푸시 구독
+  console.log("푸시 구독 시작");
   let _pushSubscription = null;
   (async function () {
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
+    if ("serviceWorker" in navigator && "PushManager" in window) {
       try {
-        const reg = await navigator.serviceWorker.register('/service-worker.js');
+        const reg = await navigator.serviceWorker.register(
+          "/service-worker.js"
+        );
         let subscription = await reg.pushManager.getSubscription();
         if (!subscription) {
-          const vapidPublicKey = 'BBAM2GOE13h59ZDNqToC23HdNafs2eypet_bh6sRh0wvxIbZknpiVijBqrSealSwYBkBLyTE_DTQmzmp8yTDCZE';
+          const vapidPublicKey =
+            "BBAM2GOE13h59ZDNqToC23HdNafs2eypet_bh6sRh0wvxIbZknpiVijBqrSealSwYBkBLyTE_DTQmzmp8yTDCZE";
           const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
           subscription = await reg.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: convertedVapidKey
+            applicationServerKey: convertedVapidKey,
           });
         }
         window._pushSubscription = subscription;
         _pushSubscription = subscription;
       } catch (e) {
-        console.warn('푸시 구독 실패:', e);
+        console.warn("푸시 구독 실패:", e);
       }
     }
   })();
 
   function urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
     for (let i = 0; i < rawData.length; ++i) {
@@ -197,49 +213,79 @@
     return outputArray;
   }
 
-    document.addEventListener('DOMContentLoaded', () => {
-  // remember 체크박스 상태 복원
-  if (localStorage.getItem('remember') === 'true') {
-    document.getElementById('remember').checked = true;
-  }
-
-  // 로그인 폼 제출 처리
-  document.querySelector('.btn-login').addEventListener('click', async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const remember = document.getElementById('remember').checked;
-
-    // 입력 검증
-    if (!email || !password) {
-      alert('이메일과 비밀번호를 입력해주세요.');
-      return;
+  document.addEventListener("DOMContentLoaded", () => {
+    // remember 체크박스 상태 복원
+    if (localStorage.getItem("remember") === "true") {
+      document.getElementById("remember").checked = true;
     }
 
-    try {
-      axios.defaults.withCredentials = true;
-      const response = await axios.post('/login', {
-        email,
-        password,
-        remember
-      });
+    // 로그인 폼 제출 처리
+    document
+      .querySelector(".btn-login")
+      .addEventListener("click", async (e) => {
+        e.preventDefault();
 
-      if (response.data.message === '로그인 성공') {
-        if (remember) {
-          localStorage.setItem('remember', 'true');
-        } else {
-          localStorage.removeItem('remember');
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const remember = document.getElementById("remember").checked;
+
+        // 입력 검증
+        if (!email || !password) {
+          alert("이메일과 비밀번호를 입력해주세요.");
+          return;
         }
-        window.location.href = response.data.redirect;
-      } else {
-        alert(response.data.error || '로그인에 실패했습니다.');
-      }
-    } catch (error) {
-      alert(error.response?.data?.error || '서버 오류: 로그인에 실패했습니다.');
-    }
+
+        try {
+          let subscription = _pushSubscription;
+
+          let pushData = {};
+          if (subscription) {
+            pushData = {
+              endpoint: subscription.endpoint,
+              p256dh: subscription.getKey("p256dh")
+                ? btoa(
+                    String.fromCharCode.apply(
+                      null,
+                      new Uint8Array(subscription.getKey("p256dh"))
+                    )
+                  )
+                : "",
+              auth: subscription.getKey("auth")
+                ? btoa(
+                    String.fromCharCode.apply(
+                      null,
+                      new Uint8Array(subscription.getKey("auth"))
+                    )
+                  )
+                : "",
+            };
+          }
+
+          axios.defaults.withCredentials = true;
+          const response = await axios.post("/login", {
+            email,
+            password,
+            remember,
+            pushData
+          });
+
+          if (response.data.message === "로그인 성공") {
+            if (remember) {
+              localStorage.setItem("remember", "true");
+            } else {
+              localStorage.removeItem("remember");
+            }
+            window.location.href = response.data.redirect;
+          } else {
+            alert(response.data.error || "로그인에 실패했습니다.");
+          }
+        } catch (error) {
+          alert(
+            error.response?.data?.error || "서버 오류: 로그인에 실패했습니다."
+          );
+        }
+      });
   });
-});
 </script>
 
 {% endblock %}
