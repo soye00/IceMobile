@@ -49,7 +49,7 @@ router.post("/login", async function (req, res, next) {
       if (upsertError) {
         console.error("푸시 구독 정보 저장 실패:", upsertError);
       } else {
-        console.log("푸시 구독 정보 저장 성공 - phone:", phone);
+        console.log("푸시 구독 정보 저장 성공 - phone:", data.phone);
       }
     }
 
