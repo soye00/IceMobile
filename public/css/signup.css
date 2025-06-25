@@ -87,7 +87,7 @@
     width: calc(100% - 80px);
   }
   .btn-container {
-    padding: 0.75rem;
+    padding: 1rem;
   }
   .btn-container .btn {
     min-width: 100px;

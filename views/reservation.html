@@ -81,13 +81,20 @@
 {% block script %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+  
 function openAddressSearch() {
   new daum.Postcode({
     oncomplete: function(data) {
       document.getElementById('postcode').value = data.zonecode;
       document.getElementById('address').value = data.address;
       document.getElementById('address_detail').focus();
-    }
+    },
+    // 팝업창 옵션 추가
+    width: 500,
+    height: 600,
+    popupTitle: '주소 검색',
+    theme: {}, // 테마 설정 (선택 사항)
+    popupKey: 'address-search-popup' // 고유한 팝업 키
   }).open();
 }
 // 오늘 날짜 기본값 및 min/max 설정
