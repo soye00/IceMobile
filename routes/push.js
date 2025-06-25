@@ -31,8 +31,13 @@ router.post('/subscribe', async(req, res) => {
 
 
 router.post('/send/:phone', async(req, res) => {
+  console.log("send push 왔냐?");
     const { phone } = req.params;
     const { res_no } = req.body;
+
+    console.log(phone);
+    console.log(res_no);
+
     const { data:pushSub, error } = await req.supabase
       .from('push_subscribe')
       .select('*')
