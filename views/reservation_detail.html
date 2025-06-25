@@ -90,14 +90,14 @@
   {% if reservation.state < 3 %}  
     <button id="cancelBtn" class="btn btn-danger w-100 mt-3">예약취소</button>
   {% endif %}
-  {% if reservation.state == 4 and engineer %}
+  {% if reservation.state >= 4 and engineer %}
     <div class="info-section p-4">
       <div style="font-weight:bold; margin-bottom:1rem;">기사 정보</div>
       <div class="engineer-info">
         <img src="{{ engineer.file_url }}" class="engineer-img" alt="기사사진">
         <div>
           <div class="mb-2">{{ engineer.nm }} 기사님</div>
-          <div><i class="bi bi-telephone-fill"></i> {{ engineer.tel }}</div>
+          <div ><i class="bi bi-telephone-fill"></i> <a style="color: black; text-decoration: none;" href="tel:{{ engineer.tel }}">{{ engineer.tel }}</a></div>
         </div>
       </div>
     </div>

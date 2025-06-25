@@ -22,9 +22,9 @@ router.get("/:res_no", async function (req, res, next) {
     if (error || !reservation)
       throw error || new Error("예약 정보를 찾을 수 없습니다.");
 
-    // 기사 정보 (state==4일 때만)
+    // 기사 정보 (state>=4일 때 모두)
     let engineer = null;
-    if (reservation.state == 4) {
+    if (reservation.state >= 4) {
       const { data: engineers, error: engErr } = await req.supabase
         .from("member")
         .select("file_url, nm, tel")
@@ -34,7 +34,7 @@ router.get("/:res_no", async function (req, res, next) {
         engineer = engineers[0];
       }
     }
-    // 상태별 텍스트/컬러, 멘트
+    // 상태별 텍스트, 컬러, 멘트
     const state_colors = {
       1: { text: "신규예약", color: "#4CAF50" },
       2: { text: "결제대기", color: "#FF9800" },

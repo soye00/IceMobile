@@ -229,7 +229,7 @@
     <div class="content-resin" onclick="window.location.href='/my-reservations'">
       <h2>예약 내역 확인하기</h2>
       {% if recentReservation %}
-        <p>최근 예약 : {{ recentReservation | dateFormat }}</p>
+        <p>최근 완료 : {{ recentReservation | dateFormat }}</p>
       {% else %}
         <p>최근 예약이 없습니다.</p>
       {% endif %}

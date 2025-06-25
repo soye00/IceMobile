@@ -17,7 +17,7 @@ router.get('/', async function(req, res, next) {
     // Supabase에서 예약 조회
     const { data: reservations, error } = await req.supabase
       .from('reservation')
-      .select('date')
+      .select('date, state')
       .eq('user_email', req.session.user.email)
       .order('date', { ascending: false });
 
@@ -26,8 +26,15 @@ router.get('/', async function(req, res, next) {
       return res.status(500).json({ error: '예약 조회 중 오류가 발생했습니다.' });
     }
 
-    const recentReservation = reservations.length > 0 ? reservations[0].date : null;
-    const nextReservation = reservations.find(r => new Date(r.date) > new Date())?.date || null;
+    // 결제완료(3), 기사배정(4) 중 nextReservation : 다음 예약일
+    const nextReservation = reservations
+      .filter(r => (r.state === 3 || r.state === 4) && new Date(r.date) > new Date())
+      .sort((a, b) => new Date(a.date) - new Date(b.date))[0]?.date || null;
+
+    // 청소완료(5) 중 가장 최근 예약  recentReservation : 최근 완료 예약건 
+    const recentReservation = reservations
+      .filter(r => r.state === 5)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))[0]?.date || null;
 
     res.render('home', {
       title: 'ICECARE',

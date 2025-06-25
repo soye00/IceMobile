@@ -23,6 +23,85 @@
   font-size: 0.95em;
   display: inline-block;
 }
+.res-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.7rem;
+  margin: 1.2rem 0 0.5rem 0;
+  justify-content: center;
+}
+.res-tab {
+  flex: 0 1 22%;
+  max-width: 22%;
+  min-width: 90px;
+  box-sizing: border-box;
+  padding: 0.5em 0.2em;
+  border-radius: 2em;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  color: #333;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 0.3em;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.res-tab.active, .res-tab:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.res-tab.active[data-state="1"], .res-tab[data-state="1"]:hover { background: #4CAF50; border-color: #4CAF50; }
+.res-tab.active[data-state="2"], .res-tab[data-state="2"]:hover { background: #FF9800; border-color: #FF9800; }
+.res-tab.active[data-state="3"], .res-tab[data-state="3"]:hover { background: #2196F3; border-color: #2196F3; }
+.res-tab.active[data-state="4"], .res-tab[data-state="4"]:hover { background: #9C27B0; border-color: #9C27B0; }
+.res-tab.active[data-state="5"], .res-tab[data-state="5"]:hover { background: #607D8B; border-color: #607D8B; }
+.res-tab.active[data-state="6"], .res-tab[data-state="6"]:hover { background: #F44336; border-color: #F44336; }
+.res-tab.active[data-state="all"], .res-tab[data-state="all"]:hover { background: #3182f6; border-color: #3182f6; }
+.res-count {
+  text-align: right;
+  font-size: 0.95em;
+  color: #888;
+  margin-bottom: 0.5em;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3em;
+  margin: 1.5em 0 1.5rem;
+}
+.page-link {
+  padding: 0.4em 0.9em;
+  border-radius: 1.2em;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #3182f6;
+  font-size: 1em;
+  cursor: pointer;
+  margin: 0 0.1em;
+  transition: background 0.2s, color 0.2s;
+}
+.page-link.active, .page-link:hover {
+  z-index: 0 !important;
+  background: #3182f6;
+  color: #fff;
+  border-color: #3182f6;
+}
+@media (max-width: 600px) {
+  .res-tab {
+    flex: 0 1 20%;
+    max-width: 40%;
+    min-width: 70px;
+    font-size: 0.95em;
+    padding: 0.4em 0.1em;
+  }
+  .res-tabs { gap: 0.3rem 0.3rem; }
+  .pagination { gap: 0.1em; }
+  .page-link { padding: 0.3em 0.6em; font-size: 0.95em; }
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -33,6 +112,22 @@
     <span> </span>
   </div>
 
+  <!-- 상태별 탭 -->
+  <div class="res-tabs">
+    {% set tabs = [
+      { 'label': '전체', 'value': 'all' },
+      { 'label': '신규예약', 'value': '1' },
+      { 'label': '결제대기', 'value': '2' },
+      { 'label': '결제완료', 'value': '3' },
+      { 'label': '기사배정', 'value': '4' },
+      { 'label': '청소완료', 'value': '5' },
+      { 'label': '예약취소', 'value': '6' }
+    ] %}
+    {% for tab in tabs %}
+      <a href="?state={{ tab.value }}" class="res-tab{% if state == tab.value %} active{% endif %}" data-state="{{ tab.value }}">{{ tab.label }}</a>
+    {% endfor %}
+  </div>
+  <div class="res-count">총 {{ total }}건</div>
     
   {% if error %}
     <div class="alert alert-danger">{{ error }}</div>
@@ -77,6 +172,13 @@
       </div>
   </div>
   {% endfor %}
+  {% if totalPages > 1 %}
+  <div class="pagination">
+    {% for p in range(1, totalPages+1) %}
+      <a href="?state={{ state }}&page={{ p }}" class="page-link{% if p == page %} active{% endif %}">{{ p }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
   
 {% include 'partials/footer.html' %}  
 </div>

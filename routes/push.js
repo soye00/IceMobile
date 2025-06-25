@@ -30,13 +30,41 @@ router.post('/subscribe', async(req, res) => {
 });
 
 
-router.get('/send/:phone', async(req, res) => {
+router.post('/send/:phone', async(req, res) => {
     const { phone } = req.params;
-    const { data, error } = await req.supabase
+    const { res_no } = req.body;
+    const { data:pushSub, error } = await req.supabase
       .from('push_subscribe')
       .select('*')
       .eq('phone', phone);
+
     console.log(data);
+
+   // 3. 푸시 페이로드 구성
+   const payload = JSON.stringify({
+     title: "기사 배정 완료!",
+     body: `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일 기사배정이 완료되었습니다.`,
+     url: `https://mini-project06-ice-admin.vercel.app/reservation/${res_no}`,
+   });
+
+   // 4. 푸시 구독 정보 구조 맞추기
+   const subscription = {
+     endpoint: pushSub.endpoint,
+     keys: {
+       p256dh: pushSub.p256dh,
+       auth: pushSub.auth,
+     },
+   };
+
+   // 5. 푸시 전송
+   await webpush
+     .sendNotification(subscription, payload)
+     .then((response) => {
+       console.log("푸시 전송 성공:", response.statusCode);
+     })
+     .catch((err) => {
+       console.error("푸시 전송 실패:", err);
+     });
 });
 
 module.exports = router;

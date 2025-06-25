@@ -105,6 +105,7 @@ const mypageRouter = require("./routes/mypage");
 const guideRouter = require("./routes/guide");
 const centerRouter = require("./routes/center");
 const pushRouter = require("./routes/push");
+const forgotPasswordRouter = require("./routes/forgot-password");
 
 app.use("/", indexRouter);
 app.use("/signup", signupRouter);
@@ -116,5 +117,6 @@ app.use("/mypage", mypageRouter);
 app.use("/guide", guideRouter);
 app.use("/center", centerRouter);
 app.use("/push", pushRouter);
+app.use("/forgot-password", forgotPasswordRouter);
 
 module.exports = app;

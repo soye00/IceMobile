@@ -2,14 +2,13 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-// 내정보 메인 화면
 router.get('/', async (req, res, next) => {
   if (!req.session.user) {
     return res.redirect('/');
   }
 
   try {
-    // 현재 세션의 사용자 정보로 최신 데이터 조회
+    // 현재 세션의 사용자 정보 최신 데이터 조회
     const { data: customer, error } = await req.supabase
       .from('customer')
       .select('email, name, phone, addr, image_url')
@@ -62,7 +61,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// 전화번호 중복체크 (자신의 전화번호는 제외)
+// 전화번호 중복체크
 router.get('/check-phone', async function(req, res, next) {
   const { phone } = req.query;
   const currentEmail = req.session.user?.email;
@@ -76,7 +75,7 @@ router.get('/check-phone', async function(req, res, next) {
       .from('customer')
       .select('phone')
       .eq('phone', phone)
-      .neq('email', currentEmail) // 현재 사용자의 이메일과 다른 경우만 체크
+      .neq('email', currentEmail) 
       .single();
 
     if (error && error.code !== 'PGRST116') { 
@@ -156,7 +155,7 @@ router.post('/change-password', async (req, res, next) => {
     return res.status(400).json({ error: '새 비밀번호가 일치하지 않습니다.' });
   }
 
-  // 비밀번호 복잡성 검증 (signup과 동일)
+  // 비밀번호 복잡성 검증
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,}$/;
   if (!passwordRegex.test(newPassword)) {
     return res.status(400).json({ error: '비밀번호는 영문, 숫자, 특수문자(!@#$%^&*())를 포함해 8자 이상이어야 합니다.' });
