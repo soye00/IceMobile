@@ -43,7 +43,7 @@ router.post('/send/:phone', async(req, res) => {
       .select('*')
       .eq('phone', phone);
 
-    console.log(data);
+    console.log(pushSub);
 
    // 3. 푸시 페이로드 구성
    const payload = JSON.stringify({
