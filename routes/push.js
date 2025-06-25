@@ -42,7 +42,8 @@ router.post('/send/:phone', async(req, res) => {
     const { data:pushSub, error } = await req.supabase
       .from('push_subscribe')
       .select('*')
-      .eq('phone', phone);
+      .eq('phone', phone)
+      .single();
 
     console.log(pushSub);
 
