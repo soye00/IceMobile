@@ -9,10 +9,14 @@ a {
 
 /* 공통 컨테이너 스타일 */
 .container {
-    min-height: 100vh;
-    padding: 1rem 0;
-    margin-bottom: 5rem;
-}
+    padding: 0.8rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 768px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
 
 /* 공통 헤더 스타일 */
 .signup-header {

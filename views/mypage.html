@@ -125,13 +125,57 @@ let phoneCheckTimeout;
 
 // 카카오 주소 검색
 function openAddressSearch() {
+  let existModal = document.getElementById('addressModal');
+  if (existModal) existModal.remove();
+
+  // 모달 HTML 생성
+  const modalHtml = `
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width:95vw;">
+        <div class="modal-content" style="min-height:400px;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addressModalLabel">주소 검색</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+          </div>
+          <div class="modal-body" style="padding:0;">
+            <div id="daum-postcode-embed" style="width:100%;height:400px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+  // 부트스트랩 모달 인스턴스 생성 및 표시
+  var addressModal = new bootstrap.Modal(document.getElementById('addressModal'), {
+    backdrop: 'static',
+    keyboard: false
+  });
+  addressModal.show();
+
+  // 카카오 주소 검색 위젯 삽입
   new daum.Postcode({
     oncomplete: function(data) {
       document.getElementById('postcode').value = data.zonecode;
       document.getElementById('address').value = data.address;
       document.getElementById('address_detail').focus();
-    }
-  }).open();
+      addressModal.hide();
+      setTimeout(() => {
+        // 모달 DOM 제거 (메모리 누수 방지)
+        let m = document.getElementById('addressModal');
+        if (m) m.remove();
+      }, 300);
+    },
+    width: '100%',
+    height: '100%',
+    animation: true
+  }).embed(document.getElementById('daum-postcode-embed'));
+
+  // 모달 닫힐 때 위젯도 제거
+  document.getElementById('addressModal').addEventListener('hidden.bs.modal', function () {
+    let m = document.getElementById('addressModal');
+    if (m) m.remove();
+  });
 }
 
 // 연락처 포맷팅 
