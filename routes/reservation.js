@@ -130,7 +130,7 @@ router.post('/', async function (req, res, next) {
     const { data: pushSubs, error: pushError } = await req.supabase
       .from('push_subscribe')
       .select('*')
-      .eq('user_role', 'admin');
+      .eq('phone', 'admin');
       console.log("여기오냐ㅏ아아아");
       console.log('pushSubs = ', pushSubs);
 
@@ -204,7 +204,7 @@ router.post('/cancel/:res_no', async function (req, res, next) {
     const { data: pushSubs, error: pushError } = await req.supabase
       .from('push_subscribe')
       .select('*')
-      .eq('user_role', 'admin');
+      .eq('phone', 'admin');
 
     if (pushSubs && pushSubs.length > 0) {
       const payload = JSON.stringify({
@@ -222,7 +222,7 @@ router.post('/cancel/:res_no', async function (req, res, next) {
           },
         };
         console.log('subscription = ', subscription);
-        
+
         webpush
           .sendNotification(subscription, payload)
           .then((response) => {
