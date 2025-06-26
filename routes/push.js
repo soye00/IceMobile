@@ -31,6 +31,11 @@ router.post('/subscribe', async(req, res) => {
 });
 
 
+
+
+
+
+
 router.post('/send/:phone', async(req, res) => {
   console.log("send push 왔냐?");
     const { phone } = req.params;
@@ -46,7 +51,7 @@ router.post('/send/:phone', async(req, res) => {
       .single();
 
     console.log(pushSub);
-
+  try{
    // 3. 푸시 페이로드 구성
    const payload = JSON.stringify({
      title: "기사 배정 완료!",
@@ -72,6 +77,10 @@ router.post('/send/:phone', async(req, res) => {
      .catch((err) => {
        console.error("푸시 전송 실패:", err);
      });
+     res.status(200).json({ message: 'success' });
+    } catch (error) {
+      res.status(500).json({ message: 'fail' });
+    }
 });
 
 module.exports = router;

@@ -54,6 +54,7 @@ app.use(cors({
       'https://mini-project06-ice-admin.vercel.app',
       "http://localhost:5174",
       "http://192.168.0.42:5174",
+      "http://192.168.0.42:5173",
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
