@@ -89,7 +89,7 @@ router.post("/login", async function (req, res, next) {
     res.status(200).json({ message: "로그인 성공", redirect: "/home" });
   } catch (err) {
     console.error("로그인 처리 중 오류:", err);
-    res.status(500).json({ error: "서버 오류가 발생했습니다." });
+    res.status(500).json({ error: "입력하신 이메일로 등록된 계정이 없습니다." });
   }
 });
 
