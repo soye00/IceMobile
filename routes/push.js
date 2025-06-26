@@ -81,9 +81,9 @@ router.post('/send/:phone', async(req, res) => {
 
 
 router.post('/price_change/:phone', async(req, res) => {
-  console.log("send push 왔냐?");
+  console.log("price_change push 왔냐?");
     const { phone } = req.params;
-    const { res_no, price } = req.body;
+    const { res_no, price } = req.body; 
 
     console.log(phone);
     console.log(res_no);
@@ -130,7 +130,7 @@ router.post('/price_change/:phone', async(req, res) => {
 
 
 router.post('/complete/:phone', async(req, res) => {
-  console.log("send push 왔냐?");
+  console.log("complete push 왔냐?");
     const { phone } = req.params;
     const { res_no} = req.body;
 
