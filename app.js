@@ -38,9 +38,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "productionㅇㅇㅇ", // 배포 시 HTTPS 필요 => secure: true 로 설정하기!
+      secure: process.env.NODE_ENV === "production", // 배포 시 HTTPS 필요 => secure: true 로 설정하기!
       maxAge: 24 * 60 * 60 * 1000, // 24시간
-      sameSite: "lax",  // 배포 -> none, 개발 -> lax
+      sameSite: "none",  // 배포 -> none, 개발 -> lax
     },
   })
 );

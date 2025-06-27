@@ -145,7 +145,7 @@
       '5': { 'text': '청소완료', 'color': '#607D8B' },
       '6': { 'text': '예약취소', 'color': '#F44336' }
     } %}
-    {% set stateInfo = stateMap.get(r.state|string, { 'text': '알 수 없음', 'color': '#999999' }) %}
+    {% set stateInfo = stateMap[r.state|string] if r.state is defined and r.state is not null and stateMap[r.state|string] else { 'text': '알 수 없음', 'color': '#999999' } %}
     <div class="res-card-container">
       <div class="res-card" onclick="location.href='/reservation/{{ r.res_no }}'">
         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -172,7 +172,7 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
   {% endfor %}
   {% if totalPages > 1 %}
   <div class="pagination">
@@ -213,6 +213,5 @@ function formatNumberWithCommas(number) {
   if (typeof number !== "number" && typeof number !== "string") return "";
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 </script>
-{% endblock %} 
+{% endblock %}
