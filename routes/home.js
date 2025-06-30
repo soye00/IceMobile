@@ -28,10 +28,15 @@ router.get('/', async function(req, res, next) {
 
     console.log("여기오나")
     // 결제완료(3), 기사배정(4) 중 nextReservation : 다음 예약일
+    console.log(reservations);
+    
     const nextReservation = reservations
+  
       .filter(
         r => {
           console.log(r.date);
+          console.log(1);
+
           return (r.state === 3 || r.state === 4) && new Date(r.date) >= new Date()
         }
       )
