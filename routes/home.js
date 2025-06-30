@@ -40,8 +40,9 @@ router.get('/', async function(req, res, next) {
 
           return (r.state === 3 || r.state === 4) && new Date(r.date) >= new Date()
 
-          console.log(new Date(r.date));
-          console.log(new Date());
+          console.log('new Date(r.date)',new Date(r.date));
+          console.log('new Date()',new Date());
+          console.log('new Date(r.date) >= new Date()',new Date(r.date) >= new Date());
         }
       )
       .sort((a, b) => new Date(a.date) - new Date(b.date))[0]?.date || null;
