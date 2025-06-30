@@ -187,7 +187,7 @@
 {% endblock %}
 {% block script %}
 <script>
-// 날짜를 'YYYY년 MM월 DD일'로 변환
+// 날짜 변환
 function formatKoreanDate(dateStr) {
   if (!dateStr) return '';
   var d = new Date(dateStr);
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     el.textContent = formatKoreanDate(el.getAttribute('data-date'));
   });
   
-  // 가격에 쉼표 포맷팅 적용
+  // 가격에 쉼표 
   document.querySelectorAll('.formatted-price').forEach(function(el) {
     var price = el.getAttribute('data-price');
     if (price) {

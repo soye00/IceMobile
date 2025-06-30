@@ -191,14 +191,14 @@ function openAddressSearch() {
   `;
   document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-  // 부트스트랩 모달 인스턴스 생성 및 표시
+  // 부트스트랩 모달
   var addressModal = new bootstrap.Modal(document.getElementById('addressModal'), {
-    backdrop: 'static',
-    keyboard: false
+    backdrop: 'static', // 배경 클릭 시 안닫힘   <-> 모달 창 밖 클릭 시 닫히게 하려면 : true 로 설정하기!  
+    keyboard: false // esc 키 눌러도 안닫힘  
   });
   addressModal.show();
 
-  // 카카오 주소 검색 위젯 삽입
+  // 카카오 주소 검색 위젯 
   new daum.Postcode({
     oncomplete: function(data) {
       document.querySelector('input[name="postcode"]').value = data.zonecode;
@@ -206,7 +206,7 @@ function openAddressSearch() {
       document.querySelector('input[name="address_detail"]').focus();
       addressModal.hide();
       setTimeout(() => {
-        // 모달 DOM 제거 (메모리 누수 방지)
+        // 모달 DOM 제거 
         let m = document.getElementById('addressModal');
         if (m) m.remove();
       }, 300);
@@ -216,7 +216,7 @@ function openAddressSearch() {
     animation: true
   }).embed(document.getElementById('daum-postcode-embed'));
 
-  // 모달 닫힐 때 위젯도 제거
+  // 모달 닫힐 때 위젯 제거
   document.getElementById('addressModal').addEventListener('hidden.bs.modal', function () {
     let m = document.getElementById('addressModal');
     if (m) m.remove();
@@ -477,7 +477,7 @@ $(document).ready(function() {
         console.log('응답 메시지:', response.data.message);
         console.log('메시지 비교 결과:', response.data.message === '회원가입 성공');
         
-        // 성공 응답인지 확인
+        // 성공 응답 확인
         if (response.data && (response.data.message === '회원가입 성공' || !response.data.error)) {
           console.log('회원가입 성공 - Step 3로 이동 시작');
           $(".step").hide();

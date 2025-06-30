@@ -81,7 +81,7 @@
 {% block script %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-// 부트스트랩 모달을 이용한 카카오 주소 검색
+// 카카오 주소 검색
 function openAddressSearch() {
   
   let existModal = document.getElementById('addressModal');
@@ -105,7 +105,7 @@ function openAddressSearch() {
   `;
   document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-  // 부트스트랩 모달 인스턴스 생성 및 표시
+  // 부트스트랩 모달 
   var addressModal = new bootstrap.Modal(document.getElementById('addressModal'), {
     backdrop: 'static',
     keyboard: false
@@ -120,7 +120,7 @@ function openAddressSearch() {
       document.getElementById('address_detail').focus();
       addressModal.hide();
       setTimeout(() => {
-        // 모달 DOM 제거 (메모리 누수 방지)
+        // 모달 DOM 제거
         let m = document.getElementById('addressModal');
         if (m) m.remove();
       }, 300);

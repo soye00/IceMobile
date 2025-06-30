@@ -146,7 +146,7 @@ function openAddressSearch() {
   `;
   document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-  // 부트스트랩 모달 인스턴스 생성 및 표시
+  // 부트스트랩 모달 
   var addressModal = new bootstrap.Modal(document.getElementById('addressModal'), {
     backdrop: 'static',
     keyboard: false
@@ -161,7 +161,7 @@ function openAddressSearch() {
       document.getElementById('address_detail').focus();
       addressModal.hide();
       setTimeout(() => {
-        // 모달 DOM 제거 (메모리 누수 방지)
+        // 모달 DOM 제거
         let m = document.getElementById('addressModal');
         if (m) m.remove();
       }, 300);

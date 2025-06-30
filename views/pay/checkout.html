@@ -91,7 +91,7 @@
                     currency: "KRW",
                     value: discountedAmount,
                 });
-                // UI에 할인된 금액 표시
+                // 할인된 금액 표시
                 paymentAmountElement.textContent = formatPrice(discountedAmount);
                 return;
             }
@@ -100,7 +100,7 @@
                 currency: "KRW",
                 value: amount.value,
             });
-            // UI에 원래 금액 표시
+            // 원래 금액 표시
             paymentAmountElement.textContent = formatPrice(amount.value);
         });
 
