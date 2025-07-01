@@ -67,9 +67,16 @@
     <div style="font-weight:bold; margin-bottom:1rem;">예약 정보</div>
 
     <div class="d-flex mb-1">
+      <div class="min-w-25 w-25">주소</div>
+      <div>
+        {{ reservation.addr.split(',')[1].trim() if reservation.addr and reservation.addr.split(',')|length > 1 else reservation.addr }}
+      </div>
+    </div>
+    <div class="d-flex mb-1">
       <div class="min-w-25 w-25">예약일</div>
       <div>{{ reservation.date | dateFormat }} {{ reservation.time }}</div>
     </div>
+    
     <div class="d-flex mb-1">
       <div class="min-w-25 w-25">모델명</div>
       <div>{{ reservation.model }}</div>
